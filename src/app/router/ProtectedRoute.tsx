@@ -1,6 +1,5 @@
 import { Navigate, useLocation } from 'react-router';
 import { Box, CircularProgress, Typography } from '@mui/material';
-// import { useAuth } from '@/domains/auth/hooks/useAuth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -23,12 +22,9 @@ const LoadingScreen = () => (
 );
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // const { user, isLoading, isAuthenticated } = useAuth();
-  
-  // Temporary mock values - replace with actual auth hook
   const isLoading = false;
-  const isAuthenticated = true; // Change to false to test redirect
-  const user = { id: 1, name: 'Test User' }; // Mock user
+  const isAuthenticated = true;
+  const user = { id: 1, name: 'Test User' };
   
   const location = useLocation();
 

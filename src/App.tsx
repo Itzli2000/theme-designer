@@ -1,14 +1,7 @@
 import { AppRouter } from "@app/router";
-// import { AuthProvider } from '@domains/auth/context/AuthContext';
 
 function App() {
-  return (
-    <>
-      {/* <AuthProvider> */}
-      <AppRouter />
-      {/* </AuthProvider> */}
-    </>
-  );
+  return <AppRouter />;
 }
 
 export default App;

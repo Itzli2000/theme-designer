@@ -42,7 +42,7 @@ const AppRouter: React.FC = () => {
             <Route path="register" element={<Register />} />
           </Route>
           
-          {/* Legacy auth routes for backward compatibility */}
+          {/* Direct auth routes */}
           <Route path="/login" element={<AuthLayout />}>
             <Route index element={<Login />} />
           </Route>

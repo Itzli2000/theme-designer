@@ -21,7 +21,7 @@ export const requestInterceptor: RequestInterceptor = {
     return config;
   },
   onRejected: (error: unknown) => {
-    console.error('Request interceptor error:', error);
+    // Handle request error - could be logged to monitoring service
     return Promise.reject(error);
   },
 };
