@@ -20,6 +20,7 @@ const useAuth = () => {
   const isLoggedIn = isAuthenticated && user;
 
   return {
+    user,
     isLoggedIn,
     login,
     logout,

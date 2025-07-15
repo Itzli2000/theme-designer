@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router';
 import { Box, CircularProgress, Typography } from '@mui/material';
+import useAuth from '@domains/auth/hooks/useAuth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -22,9 +23,7 @@ const LoadingScreen = () => (
 );
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const isLoading = false;
-  const isAuthenticated = true;
-  const user = { id: 1, name: 'Test User' };
+  const { isLoading, isLoggedIn, user } = useAuth();
   
   const location = useLocation();
 
@@ -32,7 +31,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <LoadingScreen />;
   }
 
-  if (!isAuthenticated || !user) {
+  if (!isLoggedIn || !user) {
     return (
       <Navigate
         to="/login"
