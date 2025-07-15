@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Box, Card, CardContent, Button, TextField } from '@mui/material';
 
-const Register: React.FC = () => {
+const Register = () => {
   return (
     <Card>
       <CardContent>

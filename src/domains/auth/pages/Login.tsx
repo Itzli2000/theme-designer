@@ -1,11 +1,24 @@
-import React from 'react';
-import { Typography, Box, Card, CardContent, Button, TextField } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import { RHFTextField } from "@shared/components/RHFTextField";
+import { useFormContext } from "react-hook-form";
+import useAuth from "../hooks/useAuth";
+import type { LoginSchema } from "../schemas/login.schema";
 
-const Login: React.FC = () => {
+const Login = () => {
+  const { onSubmit, isLoading, error } = useAuth();
+  const { handleSubmit } = useFormContext<LoginSchema>();
+
   return (
     <Card>
       <CardContent>
-        <Box sx={{ textAlign: 'center', mb: 3 }}>
+        <Box sx={{ textAlign: "center", mb: 3 }}>
           <Typography variant="h4" gutterBottom>
             Login
           </Typography>
@@ -13,27 +26,30 @@ const Login: React.FC = () => {
             Sign in to your account
           </Typography>
         </Box>
-        
-        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <TextField
-            label="Email"
-            type="email"
-            fullWidth
-            variant="outlined"
-          />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            variant="outlined"
-          />
+
+        <Box
+          component="form"
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <RHFTextField<LoginSchema> name="email" label="Email" />
+          <RHFTextField<LoginSchema> name="password" label="Password" />
+
+          {error && (
+            <Alert severity="error">
+              {error}
+            </Alert>
+          )}
+
           <Button
             variant="contained"
             size="large"
             fullWidth
             sx={{ mt: 2 }}
+            type="submit"
+            disabled={isLoading}
           >
-            Sign In
+            {isLoading ? "Loading..." : "Sign In"}
           </Button>
         </Box>
       </CardContent>

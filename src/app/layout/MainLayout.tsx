@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material';
 import { Outlet } from 'react-router';
 
-const MainLayout: React.FC = () => {
+const MainLayout = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar position="static">

@@ -10,7 +10,7 @@ const MainLayout = React.lazy(() => import("@app/layout/MainLayout"));
 const Dashboard = React.lazy(
   () => import("@domains/dashboard/pages/Dashboard")
 );
-const Login = React.lazy(() => import("@domains/auth/pages/Login"));
+const LoginProvider = React.lazy(() => import("@domains/auth/providers/LoginProvider"));
 const Register = React.lazy(() => import("@domains/auth/pages/Register"));
 const ThemesList = React.lazy(() => import("@domains/themes/pages/ThemesList"));
 const ThemeCreate = React.lazy(
@@ -37,20 +37,20 @@ const LoadingFallback = () => (
   </Box>
 );
 
-const AppRouter: React.FC = () => {
+const AppRouter = () => {
   return (
     <BrowserRouter>
       <React.Suspense fallback={<LoadingFallback />}>
         <Routes>
           {/* Auth Routes - using AuthLayout */}
           <Route path="/auth" element={<AuthLayout />}>
-            <Route path="login" element={<Login />} />
+            <Route path="login" element={<LoginProvider />} />
             <Route path="register" element={<Register />} />
           </Route>
 
           {/* Direct auth routes */}
           <Route path="/login" element={<AuthLayout />}>
-            <Route index element={<Login />} />
+            <Route index element={<LoginProvider />} />
           </Route>
           <Route path="/register" element={<AuthLayout />}>
             <Route index element={<Register />} />

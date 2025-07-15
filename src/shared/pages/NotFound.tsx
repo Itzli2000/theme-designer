@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-const NotFound: React.FC = () => {
+const NotFound = () => {
   const navigate = useNavigate();
 
   return (

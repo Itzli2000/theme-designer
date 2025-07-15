@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router';
 
-const AuthLayout: React.FC = () => {
+const AuthLayout = () => {
   return (
     <Box
       sx={{

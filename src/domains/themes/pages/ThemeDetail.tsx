@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Box, Card, CardContent, Button, Chip } from '@mui/material';
 import { useParams } from 'react-router';
 
-const ThemeDetail: React.FC = () => {
+const ThemeDetail = () => {
   const { id } = useParams();
 
   return (

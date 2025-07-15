@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Box, Card, CardContent } from '@mui/material';
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   return (
     <Box>
       <Typography variant="h4" gutterBottom>

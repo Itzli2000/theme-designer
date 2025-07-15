@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Box, Card, CardContent, Grid, Button } from '@mui/material';
 
-const ThemesList: React.FC = () => {
+const ThemesList = () => {
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>

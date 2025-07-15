@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Box, Card, CardContent, Button, TextField } from '@mui/material';
 import { useParams } from 'react-router';
 
-const ThemeEdit: React.FC = () => {
+const ThemeEdit = () => {
   const { id } = useParams();
 
   return (

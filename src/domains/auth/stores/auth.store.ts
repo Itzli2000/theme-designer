@@ -1,7 +1,9 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { authInitialState } from './constants';
-import type { AuthStore, User } from './types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { authInitialState } from "./constants";
+import type { AuthStore, User } from "./types";
+import { AUTH_SERVICE } from "../services/auth";
+import { AxiosError } from "axios";
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -10,21 +12,13 @@ export const useAuthStore = create<AuthStore>()(
 
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
-        
+
         try {
-          // TODO: Replace with actual API call
-          const mockUser: User = {
-            email,
-            firstName: 'John',
-            lastName: 'Doe',
-            password,
-          };
-          
-          const mockToken = 'mock-jwt-token';
-          
+          const response = await AUTH_SERVICE.login({ email, password });
+
           set({
-            user: mockUser,
-            token: mockToken,
+            user: response.user,
+            token: response.access_token,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -32,7 +26,10 @@ export const useAuthStore = create<AuthStore>()(
         } catch (error) {
           set({
             isLoading: false,
-            error: error instanceof Error ? error.message : 'Login failed',
+            error:
+              error instanceof AxiosError
+                ? error.response?.data.message
+                : "Login failed",
           });
         }
       },
@@ -51,7 +48,7 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       setUser: (user: User) => {
-        set({ 
+        set({
           user,
           isAuthenticated: true,
         });
@@ -70,7 +67,7 @@ export const useAuthStore = create<AuthStore>()(
       },
     }),
     {
-      name: 'auth-store',
+      name: "auth-store",
       partialize: (state) => ({
         user: state.user,
         token: state.token,
