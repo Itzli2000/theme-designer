@@ -1,38 +1,27 @@
 /**
  * Represents a user in the authentication system.
  *
- * @property {string} id - Unique identifier for the user.
  * @property {string} email - User's email address.
- * @property {string} name - User's full name.
- * @property {string} [avatar] - URL to the user's avatar image (optional).
- * @property {string} updatedAt - ISO timestamp of the last update.
- * @property {string} createdAt - ISO timestamp of creation.
+ * @property {string} firstName - User's first name.
+ * @property {string} lastName - User's last name.
  */
 export interface User {
-  /**
-   * User ID
-   */
-  id: string;
   /**
    * User email
    */
   email: string;
   /**
-   * User name
+   * User first name
    */
-  name: string;
+  firstName: string;
   /**
-   * User avatar
+   * User last name
    */
-  avatar?: string;
+  lastName: string;
   /**
-   * User updated at
+   * User password
    */
-  updatedAt: string;
-  /**
-   * User created at
-   */
-  createdAt: string;
+  password: string;
 }
 
 /**

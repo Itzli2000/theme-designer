@@ -1,7 +1,8 @@
 import type { RegisterFormData, RegisterState } from "../types";
 
 export const registerInitialFormData: RegisterFormData = {
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "",
   password: "",
   confirmPassword: "",

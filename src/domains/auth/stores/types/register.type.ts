@@ -1,16 +1,21 @@
 /**
  * Represents the data required for user registration.
  *
- * @property {string} name - User's full name.
+ * @property {string} firstName - User's first name.
+ * @property {string} lastName - User's last name.
  * @property {string} email - User's email address.
  * @property {string} password - User's password.
  * @property {string} confirmPassword - Confirmation of the user's password.
  */
 export interface RegisterFormData {
   /**
-   * User name
+   * User first name
    */
-  name: string;
+  firstName: string;
+  /**
+   * User last name
+   */
+  lastName: string;
   /**
    * User email
    */

@@ -76,10 +76,14 @@ function validateRegistrationForm(formData: RegisterFormData): {
   isValid: boolean;
   error?: string;
 } {
-  const { name, email, password, confirmPassword } = formData;
+  const { firstName, lastName, email, password, confirmPassword } = formData;
 
-  if (!name.trim()) {
-    return { isValid: false, error: "Name is required" };
+  if (!firstName.trim()) {
+    return { isValid: false, error: "First name is required" };
+  }
+
+  if (!lastName.trim()) {
+    return { isValid: false, error: "Last name is required" };
   }
 
   if (!email.trim()) {

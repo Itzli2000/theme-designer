@@ -5,7 +5,7 @@ import type { AuthStore, User } from './types';
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       ...authInitialState,
 
       login: async (email: string, password: string) => {
@@ -14,12 +14,10 @@ export const useAuthStore = create<AuthStore>()(
         try {
           // TODO: Replace with actual API call
           const mockUser: User = {
-            id: '1',
             email,
-            name: 'John Doe',
-            avatar: 'https://via.placeholder.com/150',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            firstName: 'John',
+            lastName: 'Doe',
+            password,
           };
           
           const mockToken = 'mock-jwt-token';
