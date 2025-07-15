@@ -1,10 +1,14 @@
-const App =() => {
+import { AppRouter } from "@app/router";
+// import { AuthProvider } from '@domains/auth/context/AuthContext';
 
+function App() {
   return (
     <>
-    <h1>Theme designer</h1>
+      {/* <AuthProvider> */}
+      <AppRouter />
+      {/* </AuthProvider> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
