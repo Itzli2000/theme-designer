@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, Container, Button } from '@mui/material';
 import { Outlet } from 'react-router';
+import { useAuthStore } from '@domains/auth/stores';
 
 const MainLayout = () => {
   return (
@@ -10,6 +10,7 @@ const MainLayout = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Theme Designer
           </Typography>
+          <Button color="inherit" onClick={() => useAuthStore.getState().logout()}>Logout</Button>
         </Toolbar>
       </AppBar>
       
