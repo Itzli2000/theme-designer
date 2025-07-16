@@ -4,6 +4,7 @@ import { authInitialState } from "./constants";
 import type { AuthStore, User } from "./types";
 import { AUTH_SERVICE } from "../services/auth";
 import { AxiosError } from "axios";
+import httpClient from "@shared/services/http";
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -15,6 +16,8 @@ export const useAuthStore = create<AuthStore>()(
 
         try {
           const response = await AUTH_SERVICE.login({ email, password });
+
+          httpClient.setAuthToken(response.access_token);
 
           set({
             user: response.user,
@@ -35,6 +38,8 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       logout: () => {
+        httpClient.clearAuthToken();
+        
         set({
           user: null,
           token: null,
@@ -64,6 +69,21 @@ export const useAuthStore = create<AuthStore>()(
 
       setError: (error: string) => {
         set({ error });
+      },
+
+      validateToken: () => {
+        const state = useAuthStore.getState();
+        if (!state.token || !state.isAuthenticated) {
+          return false;
+        }
+
+        const isValid = AUTH_SERVICE.isTokenValid(state.token);
+        
+        if (!isValid) {
+          useAuthStore.getState().logout()
+        }
+
+        return isValid;
       },
     }),
     {

@@ -108,6 +108,12 @@ export interface AuthActions {
    * @returns {void}
    */
   setError: (error: string) => void;
+  /**
+   * Validates the current authentication token expiration.
+   *
+   * @returns {boolean} True if token is valid, false otherwise.
+   */
+  validateToken: () => boolean;
 }
 
 /**

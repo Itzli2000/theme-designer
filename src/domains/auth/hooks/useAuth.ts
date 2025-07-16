@@ -10,6 +10,7 @@ const useAuth = () => {
     isLoading,
     error,
     clearError,
+    validateToken,
   } = useAuthStore();
 
   const onSubmit = ({ email, password }: LoginSchema) => {
@@ -17,7 +18,7 @@ const useAuth = () => {
     login(email, password);
   };
 
-  const isLoggedIn = isAuthenticated && user;
+  const isLoggedIn = isAuthenticated && user && validateToken();
 
   return {
     user,

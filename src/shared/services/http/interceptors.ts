@@ -8,9 +8,17 @@ export const requestInterceptor: RequestInterceptor = {
     config.headers.set('Content-Type', 'application/json');
 
     // Add auth token if available
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      config.headers.set('Authorization', `Bearer ${token}`);
+    const authStore = localStorage.getItem('auth-store');
+    if (authStore) {
+      try {
+        const parsedStore = JSON.parse(authStore);
+        const token = parsedStore.state?.token;
+        if (token && parsedStore.state?.isAuthenticated) {
+          config.headers.set('Authorization', `Bearer ${token}`);
+        }
+      } catch (error) {
+        console.warn('Failed to parse auth store from localStorage');
+      }
     }
 
     // Add timestamp for cache busting if needed
@@ -41,5 +49,20 @@ export const responseInterceptor: ResponseInterceptor = {
     }
 
     return response;
+  },
+  onRejected: (error: unknown) => {
+    // Handle 401 unauthorized responses (expired/invalid token)
+    if (error && typeof error === 'object' && 'response' in error) {
+      const axiosError = error as { response: { status: number } };
+      if (axiosError.response?.status === 401) {
+        // Clear invalid token from auth store
+        localStorage.removeItem('auth-store');
+        
+        // Redirect to login page
+        window.location.href = '/login';
+      }
+    }
+    
+    return Promise.reject(error);
   },
 };

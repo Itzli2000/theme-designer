@@ -10,10 +10,15 @@ import { RHFTextField } from "@shared/components/RHFTextField";
 import { useFormContext } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import type { LoginSchema } from "../schemas/login.schema";
+import { Navigate } from "react-router";
 
 const Login = () => {
-  const { onSubmit, isLoading, error } = useAuth();
+  const { onSubmit, isLoading, error, isLoggedIn } = useAuth();
   const { handleSubmit } = useFormContext<LoginSchema>();
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Card>
