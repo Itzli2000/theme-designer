@@ -1,4 +1,4 @@
-import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { InternalAxiosRequestConfig } from 'axios';
 import type { RequestInterceptor, ResponseInterceptor } from './types';
 
 // Request interceptor for adding auth token and common headers
@@ -16,7 +16,7 @@ export const requestInterceptor: RequestInterceptor = {
         if (token && parsedStore.state?.isAuthenticated) {
           config.headers.set('Authorization', `Bearer ${token}`);
         }
-      } catch (error) {
+      } catch {
         console.warn('Failed to parse auth store from localStorage');
       }
     }
@@ -36,20 +36,6 @@ export const requestInterceptor: RequestInterceptor = {
 
 // Response interceptor for handling common response patterns
 export const responseInterceptor: ResponseInterceptor = {
-  onFulfilled: (response: AxiosResponse): AxiosResponse => {
-    // Transform response to our standard format if needed
-    if (response.data && typeof response.data === 'object') {
-      response.data = {
-        data: response.data,
-        status: response.status,
-        success: response.status >= 200 && response.status < 300,
-        message: response.statusText,
-        ...response.data,
-      };
-    }
-
-    return response;
-  },
   onRejected: (error: unknown) => {
     // Handle 401 unauthorized responses (expired/invalid token)
     if (error && typeof error === 'object' && 'response' in error) {

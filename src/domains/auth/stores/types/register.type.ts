@@ -1,3 +1,5 @@
+import type { RegisterResponse } from "@domains/auth/services/types/auth.types";
+
 /**
  * Represents the data required for user registration.
  *
@@ -65,9 +67,9 @@ export interface RegisterActions {
    * Attempts to register a new user with the provided form data.
    *
    * @param {RegisterFormData} formData - The registration form data.
-   * @returns {Promise<void>} Resolves when registration is complete.
+   * @returns {Promise<{ user: User; access_token: string } | Error>} Resolves when registration is complete.
    */
-  register: (formData: RegisterFormData) => Promise<void>;
+  register: (formData: RegisterFormData) => Promise<RegisterResponse>;
   /**
    * Updates a specific field in the registration form data.
    *
