@@ -1,5 +1,6 @@
-import React from 'react';
 import { Typography, Box, Card, CardContent, Grid, Button } from '@mui/material';
+import { Link as RouterLink } from 'react-router';
+import { ROUTES } from '@app/router/constants';
 
 const ThemesList = () => {
   return (
@@ -8,7 +9,11 @@ const ThemesList = () => {
         <Typography variant="h4">
           Themes
         </Typography>
-        <Button variant="contained">
+        <Button
+          variant="contained"
+          component={RouterLink}
+          to={ROUTES.THEMES_CREATE}
+        >
           Create New Theme
         </Button>
       </Box>
@@ -24,7 +29,12 @@ const ThemesList = () => {
                 <Typography variant="body2" color="text.secondary">
                   Sample theme description for theme {theme}
                 </Typography>
-                <Button size="small" sx={{ mt: 2 }}>
+                <Button
+                  size="small"
+                  sx={{ mt: 2 }}
+                  component={RouterLink}
+                  to={`${ROUTES.THEMES}/${theme}`}
+                >
                   View Details
                 </Button>
               </CardContent>

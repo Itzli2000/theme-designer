@@ -1,6 +1,7 @@
-import React from 'react';
 import { Typography, Box, Card, CardContent, Button, Chip } from '@mui/material';
 import { useParams } from 'react-router';
+import { Link as RouterLink } from 'react-router';
+import { ROUTES } from '@app/router/constants';
 
 const ThemeDetail = () => {
   const { id } = useParams();
@@ -12,7 +13,11 @@ const ThemeDetail = () => {
           Theme Details
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button variant="outlined">
+          <Button
+            variant="outlined"
+            component={RouterLink}
+            to={`${ROUTES.THEMES}/${id}/edit`}
+          >
             Edit
           </Button>
           <Button variant="contained">

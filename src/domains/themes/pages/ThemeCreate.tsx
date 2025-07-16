@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography, Box, Card, CardContent, Button, TextField } from '@mui/material';
 
 const ThemeCreate = () => {
