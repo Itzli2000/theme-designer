@@ -11,7 +11,7 @@ const Dashboard = React.lazy(
   () => import("@domains/dashboard/pages/Dashboard")
 );
 const LoginProvider = React.lazy(() => import("@domains/auth/providers/LoginProvider"));
-const Register = React.lazy(() => import("@domains/auth/pages/Register"));
+const RegisterProvider = React.lazy(() => import("@domains/auth/providers/RegisterProvider"));
 const ThemesList = React.lazy(() => import("@domains/themes/pages/ThemesList"));
 const ThemeCreate = React.lazy(
   () => import("@domains/themes/pages/ThemeCreate")
@@ -45,7 +45,7 @@ const AppRouter = () => {
           {/* Auth Routes - using AuthLayout */}
           <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<LoginProvider />} />
-            <Route path="register" element={<Register />} />
+            <Route path="register" element={<RegisterProvider />} />
           </Route>
 
           {/* Direct auth routes */}
@@ -53,7 +53,7 @@ const AppRouter = () => {
             <Route index element={<LoginProvider />} />
           </Route>
           <Route path="/register" element={<AuthLayout />}>
-            <Route index element={<Register />} />
+            <Route index element={<RegisterProvider />} />
           </Route>
 
           {/* Protected Routes - using MainLayout */}

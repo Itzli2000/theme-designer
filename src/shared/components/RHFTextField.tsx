@@ -9,7 +9,7 @@ import { TextField, type TextFieldProps } from "@mui/material";
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
-} & Pick<TextFieldProps, "label">;
+} & Partial<TextFieldProps>;
 
 export function RHFTextField<T extends FieldValues>({
   name,

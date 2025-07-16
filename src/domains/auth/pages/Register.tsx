@@ -1,7 +1,17 @@
-import React from 'react';
-import { Typography, Box, Card, CardContent, Button, TextField } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, Typography } from '@mui/material';
+import { RHFTextField } from '@shared/components/RHFTextField';
+import { useFormContext } from 'react-hook-form';
+import { type RegisterSchema } from '../schemas/register.schema';
+import { useRegisterStore } from '../stores';
 
 const Register = () => {
+  const { isLoading, error, register } = useRegisterStore();  
+  const { handleSubmit } = useFormContext<RegisterSchema>();
+  
+  const onSubmit = (data: RegisterSchema) => {
+    register(data);
+  };
+
   return (
     <Card>
       <CardContent>
@@ -14,35 +24,41 @@ const Register = () => {
           </Typography>
         </Box>
         
-        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <TextField
-            label="Name"
-            fullWidth
-            variant="outlined"
+        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }} onSubmit={handleSubmit(onSubmit)}>
+          <RHFTextField<RegisterSchema>
+            name="firstName"
+            label="First Name"
           />
-          <TextField
+          <RHFTextField<RegisterSchema>
+            name="lastName"
+            label="Last Name"
+          />
+          <RHFTextField<RegisterSchema>
+            name="email"
             label="Email"
-            type="email"
-            fullWidth
-            variant="outlined"
           />
-          <TextField
+          <RHFTextField<RegisterSchema>
+            name="password"
             label="Password"
             type="password"
-            fullWidth
-            variant="outlined"
           />
-          <TextField
+          <RHFTextField<RegisterSchema>
+            name="confirmPassword"
             label="Confirm Password"
             type="password"
-            fullWidth
-            variant="outlined"
           />
+          {error && (
+            <Alert severity="error">
+              {error}
+            </Alert>
+          )}  
           <Button
             variant="contained"
             size="large"
             fullWidth
             sx={{ mt: 2 }}
+            type="submit"
+            disabled={isLoading}
           >
             Create Account
           </Button>
