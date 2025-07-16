@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { dashboardInitialState } from "./constants";
-import type { DashboardStore } from "./types";
+import type { DashboardStore, ThemeResponse } from "./types";
 import { DASHBOARD_SERVICE } from "../services/dashboard";
 import { AxiosError } from "axios";
 
@@ -11,10 +11,13 @@ export const useDashboardStore = create<DashboardStore>()((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const themes = await DASHBOARD_SERVICE.getThemes();
+      const response = await DASHBOARD_SERVICE.getThemes();
+
+      const { data, ...pagination } = response;
       
       set({
-        themes,
+        themes: data,
+        pagination: pagination as Omit<ThemeResponse, 'data'>,
         isLoading: false,
         error: null,
       });
@@ -36,7 +39,7 @@ export const useDashboardStore = create<DashboardStore>()((set, get) => ({
       const currentThemes = get().themes;
       
       set({
-        themes: [...currentThemes, newTheme],
+        themes: [...(currentThemes || []), newTheme],
         isLoading: false,
         error: null,
       });
@@ -58,7 +61,7 @@ export const useDashboardStore = create<DashboardStore>()((set, get) => ({
       const currentThemes = get().themes;
       
       set({
-        themes: currentThemes.map(theme => 
+        themes: currentThemes?.map(theme => 
           theme.id === id ? updatedTheme : theme
         ),
         selectedTheme: get().selectedTheme?.id === id ? updatedTheme : get().selectedTheme,
@@ -83,7 +86,7 @@ export const useDashboardStore = create<DashboardStore>()((set, get) => ({
       const currentThemes = get().themes;
       
       set({
-        themes: currentThemes.filter(theme => theme.id !== id),
+        themes: currentThemes?.filter(theme => theme.id !== id),
         selectedTheme: get().selectedTheme?.id === id ? null : get().selectedTheme,
         isLoading: false,
         error: null,
@@ -112,5 +115,9 @@ export const useDashboardStore = create<DashboardStore>()((set, get) => ({
 
   clearError: () => {
     set({ error: null });
+  },
+
+  setPagination: (pagination) => {
+    set({ pagination });
   },
 }));

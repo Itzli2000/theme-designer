@@ -1,35 +1,51 @@
 /**
  * Represents a theme in the dashboard.
  */
+export interface ThemeResponse {
+  data: Theme[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 export interface Theme {
-  /**
-   * Theme ID
-   */
   id: string;
-  /**
-   * Theme name
-   */
   name: string;
-  /**
-   * Theme description
-   */
-  description?: string;
-  /**
-   * Theme configuration
-   */
-  config: Record<string, unknown>;
-  /**
-   * Creation date
-   */
+  description: null;
+  themeConfig: ThemeConfig;
+  previewImage: null;
+  tags: null;
+  isActive: boolean;
+  createdById: string;
+  updatedById: string;
+  createdBy: CreatedBy;
+  updatedBy: CreatedBy;
   createdAt: string;
-  /**
-   * Last updated date
-   */
   updatedAt: string;
-  /**
-   * User ID who created the theme
-   */
-  userId: string;
+}
+
+interface CreatedBy {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ThemeConfig {
+  palette: Palette;
+}
+
+interface Palette {
+  mode: string;
+  primary: Primary;
+  secondary: Primary;
+}
+
+interface Primary {
+  main: string;
 }
 
 /**
@@ -37,13 +53,17 @@ export interface Theme {
  */
 export interface DashboardState {
   /**
+   * Pagination information
+   */
+  pagination?: Omit<ThemeResponse, 'data'>;
+  /**
    * List of themes
    */
-  themes: Theme[];
+  themes?: Theme[];
   /**
    * Currently selected theme
    */
-  selectedTheme: Theme | null;
+  selectedTheme?: Theme | null;
   /**
    * Loading state
    */
@@ -78,6 +98,10 @@ export interface DashboardActions {
    * Sets the selected theme
    */
   setSelectedTheme: (theme: Theme | null) => void;
+  /**
+   * Sets pagination information
+   */
+  setPagination: (pagination: Omit<ThemeResponse, 'data'>) => void;
   /**
    * Sets loading state
    */
