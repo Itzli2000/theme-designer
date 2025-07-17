@@ -1,10 +1,12 @@
-import { Typography, Box, Card, CardContent, Button, Chip } from '@mui/material';
-import { useParams } from 'react-router';
-import { Link as RouterLink } from 'react-router';
 import { ROUTES } from '@app/router/constants';
+import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router';
+import { useThemesStore } from '../store';
 
 const ThemeDetail = () => {
-  const { id } = useParams();
+  const { selectedTheme } = useThemesStore();
+
+  if (!selectedTheme) return <div>Theme not found</div>;
 
   return (
     <Box>
@@ -16,7 +18,7 @@ const ThemeDetail = () => {
           <Button
             variant="outlined"
             component={RouterLink}
-            to={`${ROUTES.THEMES}/${id}/edit`}
+            to={`${ROUTES.THEMES}/${selectedTheme.id}/edit`}
           >
             Edit
           </Button>
@@ -29,10 +31,10 @@ const ThemeDetail = () => {
       <Card>
         <CardContent>
           <Typography variant="h5" gutterBottom>
-            Theme {id}
+            Theme {selectedTheme.name}
           </Typography>
           <Typography variant="body1" color="text.secondary" paragraph>
-            This is a detailed view of theme {id}. Here you can see all the theme properties and preview how it looks.
+            This is a detailed view of theme {selectedTheme.name}. Here you can see all the theme properties and preview how it looks.
           </Typography>
           
           <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
@@ -45,9 +47,8 @@ const ThemeDetail = () => {
             Color Palette
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-            <Box sx={{ width: 50, height: 50, bgcolor: 'primary.main', borderRadius: 1 }} />
-            <Box sx={{ width: 50, height: 50, bgcolor: 'secondary.main', borderRadius: 1 }} />
-            <Box sx={{ width: 50, height: 50, bgcolor: 'error.main', borderRadius: 1 }} />
+            <Box sx={{ width: 50, height: 50, bgcolor: selectedTheme.themeConfig.palette.primary.main, borderRadius: 1 }} />
+            <Box sx={{ width: 50, height: 50, bgcolor: selectedTheme.themeConfig.palette.secondary.main, borderRadius: 1 }} />
           </Box>
         </CardContent>
       </Card>
