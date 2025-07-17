@@ -5,6 +5,7 @@ import type { AuthStore, User } from "./types";
 import { AUTH_SERVICE } from "../services/auth";
 import { AxiosError } from "axios";
 import httpClient from "@shared/services/http";
+import { useThemesStore } from "@domains/themes/store";
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -39,6 +40,8 @@ export const useAuthStore = create<AuthStore>()(
 
       logout: () => {
         httpClient.clearAuthToken();
+        useThemesStore.persist.clearStorage();
+        useAuthStore.persist.clearStorage();
         
         set({
           user: null,
