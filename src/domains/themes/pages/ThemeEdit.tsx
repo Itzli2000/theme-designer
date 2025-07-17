@@ -124,7 +124,7 @@ const ThemeEdit = () => {
         try {
           const importedTheme = JSON.parse(e.target?.result as string);
           setEditingTheme(prev => prev ? { ...prev, themeConfig: importedTheme } : null);
-        } catch (error) {
+        } catch {
           console.error('Invalid theme file');
         }
       };

@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { Outlet } from 'react-router';
 
 const AuthLayout = () => {
@@ -7,14 +7,10 @@ const AuthLayout = () => {
       sx={{
         minHeight: '100vh',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         bgcolor: 'background.default',
       }}
     >
-      <Container maxWidth="sm">
-        <Outlet />
-      </Container>
+      <Outlet />
     </Box>
   );
 };

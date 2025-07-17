@@ -1,0 +1,280 @@
+{
+    "designSystem": {
+      "name": "Modern Blue Gradient Login System",
+      "framework": "Material-UI (MUI) Free Version",
+      "designPrinciples": {
+        "style": "Modern, clean, minimalist",
+        "approach": "Split-screen layout with illustration and form",
+        "visualHierarchy": "Clear separation between visual content and functional elements",
+        "accessibility": "High contrast, readable typography, clear interactive elements"
+      }
+    },
+    "colorPalette": {
+      "primary": {
+        "gradient": {
+          "start": "#87CEEB",
+          "end": "#1E90FF",
+          "direction": "linear-gradient(135deg, #87CEEB 0%, #1E90FF 100%)",
+          "description": "Sky blue to royal blue gradient"
+        },
+        "solid": "#1E90FF",
+        "light": "#87CEEB",
+        "dark": "#0066CC"
+      },
+      "neutral": {
+        "white": "#FFFFFF",
+        "lightGray": "#F5F5F5",
+        "mediumGray": "#E0E0E0",
+        "darkGray": "#757575",
+        "text": "#333333"
+      },
+      "accent": {
+        "highlight": "#FFFFFF",
+        "decorative": "rgba(255, 255, 255, 0.2)"
+      }
+    },
+    "typography": {
+      "fontFamily": "Roboto, sans-serif",
+      "fontWeights": {
+        "light": 300,
+        "regular": 400,
+        "medium": 500,
+        "bold": 700
+      },
+      "scale": {
+        "h1": {
+          "fontSize": "2.5rem",
+          "fontWeight": 700,
+          "lineHeight": 1.2,
+          "usage": "Main headlines"
+        },
+        "h2": {
+          "fontSize": "2rem",
+          "fontWeight": 500,
+          "lineHeight": 1.3,
+          "usage": "Section titles"
+        },
+        "body1": {
+          "fontSize": "1rem",
+          "fontWeight": 400,
+          "lineHeight": 1.5,
+          "usage": "Primary body text"
+        },
+        "body2": {
+          "fontSize": "0.875rem",
+          "fontWeight": 400,
+          "lineHeight": 1.4,
+          "usage": "Secondary text, descriptions"
+        },
+        "button": {
+          "fontSize": "0.875rem",
+          "fontWeight": 500,
+          "textTransform": "none",
+          "usage": "Button labels"
+        }
+      }
+    },
+    "layout": {
+      "structure": "split-screen",
+      "breakpoints": {
+        "mobile": "600px",
+        "tablet": "960px",
+        "desktop": "1280px"
+      },
+      "grid": {
+        "leftPanel": "50%",
+        "rightPanel": "50%",
+        "mobileStack": "vertical"
+      },
+      "spacing": {
+        "unit": 8,
+        "small": "8px",
+        "medium": "16px",
+        "large": "32px",
+        "xlarge": "64px"
+      },
+      "containerMaxWidth": "1200px"
+    },
+    "components": {
+      "leftPanel": {
+        "background": "Primary gradient",
+        "padding": "64px 32px",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "illustration": {
+          "style": "Flat design with geometric shapes",
+          "colors": ["white", "navy", "light blue"],
+          "elements": ["Abstract shapes", "Human figures", "Decorative elements"],
+          "composition": "Centered with floating decorative elements"
+        }
+      },
+      "rightPanel": {
+        "background": "#FFFFFF",
+        "padding": "64px 48px",
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "maxWidth": "400px",
+        "margin": "0 auto"
+      },
+      "logo": {
+        "position": "top-left",
+        "color": "white",
+        "fontSize": "1.5rem",
+        "fontWeight": "medium",
+        "margin": "32px"
+      },
+      "heading": {
+        "typography": "h1",
+        "color": "text.primary",
+        "marginBottom": "16px",
+        "textAlign": "left"
+      },
+      "subheading": {
+        "typography": "body1",
+        "color": "text.secondary",
+        "marginBottom": "32px",
+        "textAlign": "left"
+      },
+      "navigationTabs": {
+        "style": "underlined",
+        "variant": "standard",
+        "textColor": "primary",
+        "indicatorColor": "primary",
+        "marginBottom": "32px"
+      },
+      "formFields": {
+        "variant": "outlined",
+        "fullWidth": true,
+        "margin": "normal",
+        "borderRadius": "8px",
+        "backgroundColor": "#F8F9FA",
+        "spacing": "16px"
+      },
+      "buttons": {
+        "primary": {
+          "variant": "contained",
+          "color": "primary",
+          "borderRadius": "8px",
+          "padding": "12px 24px",
+          "textTransform": "none",
+          "fontWeight": 500,
+          "boxShadow": "none"
+        },
+        "secondary": {
+          "variant": "text",
+          "color": "primary",
+          "textTransform": "none",
+          "fontWeight": 400
+        }
+      },
+      "socialLogin": {
+        "layout": "horizontal",
+        "spacing": "16px",
+        "buttonStyle": "outlined",
+        "iconPosition": "left"
+      }
+    },
+    "materialUITheme": {
+      "palette": {
+        "mode": "light",
+        "primary": {
+          "main": "#1E90FF",
+          "light": "#87CEEB",
+          "dark": "#0066CC"
+        },
+        "background": {
+          "default": "#FFFFFF",
+          "paper": "#FFFFFF"
+        },
+        "text": {
+          "primary": "#333333",
+          "secondary": "#757575"
+        }
+      },
+      "typography": {
+        "fontFamily": "Roboto, sans-serif",
+        "h1": {
+          "fontSize": "2.5rem",
+          "fontWeight": 700
+        },
+        "body1": {
+          "fontSize": "1rem"
+        }
+      },
+      "shape": {
+        "borderRadius": 8
+      },
+      "spacing": 8,
+      "components": {
+        "MuiButton": {
+          "styleOverrides": {
+            "root": {
+              "textTransform": "none",
+              "borderRadius": "8px",
+              "boxShadow": "none"
+            }
+          }
+        },
+        "MuiTextField": {
+          "styleOverrides": {
+            "root": {
+              "backgroundColor": "#F8F9FA"
+            }
+          }
+        },
+        "MuiTabs": {
+          "styleOverrides": {
+            "indicator": {
+              "height": 2
+            }
+          }
+        }
+      }
+    },
+    "animations": {
+      "transitions": {
+        "default": "all 0.3s ease-in-out",
+        "hover": "transform 0.2s ease-in-out"
+      },
+      "effects": {
+        "buttonHover": "slight scale (1.02)",
+        "fieldFocus": "border color change",
+        "decorativeElements": "subtle floating animation"
+      }
+    },
+    "responsive": {
+      "mobile": {
+        "layout": "single column stack",
+        "leftPanel": "reduced height with illustration",
+        "rightPanel": "full width",
+        "padding": "reduced to 16px-24px"
+      },
+      "tablet": {
+        "layout": "maintain split but adjust proportions",
+        "padding": "medium spacing"
+      },
+      "desktop": {
+        "layout": "full split-screen 50/50",
+        "padding": "maximum spacing"
+      }
+    },
+    "implementationNotes": {
+      "muiFreeComponents": [
+        "Grid",
+        "Container",
+        "Typography",
+        "TextField",
+        "Button",
+        "Tabs",
+        "Tab",
+        "Box",
+        "Stack"
+      ],
+      "customizationApproach": "Use MUI theme provider with custom palette and component overrides",
+      "gradientImplementation": "CSS background with linear-gradient",
+      "illustrationHandling": "SVG or image assets positioned absolutely or within flex containers",
+      "responsiveStrategy": "MUI Grid system with breakpoint-specific props"
+    }
+  }
