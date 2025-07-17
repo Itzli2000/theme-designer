@@ -1,17 +1,47 @@
-import { 
-  Typography, 
-  Box, 
-  Card, 
-  CardContent, 
-  Button, 
-  TextField, 
+import { ROUTES } from '@app/router/constants';
+import {
   Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
   Container,
+  TextField,
+  Typography,
 } from '@mui/material';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { useAuthStore } from '../../auth/stores/auth.store';
 
 const Profile = () => {
   const { section } = useParams();
+  const navigate = useNavigate();
+  const { user, isLoading } = useAuthStore();
+
+  // Generate initials from user's name
+  const getInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
+
+  // Get full name from user data
+  const getFullName = (firstName: string, lastName: string) => {
+    return `${firstName} ${lastName}`;
+  };
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <Typography>Loading profile...</Typography>
+      </Box>
+    );
+  }
+
+  if (!user) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <Typography>No user data available</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -75,7 +105,7 @@ const Profile = () => {
                 fontWeight: 500,
               }}
             >
-              U
+              {getInitials(user.firstName, user.lastName)}
             </Avatar>
             
             {/* User Info Section */}
@@ -89,7 +119,7 @@ const Profile = () => {
                   lineHeight: 1.2,
                 }}
               >
-                User Name
+                {getFullName(user.firstName, user.lastName)}
               </Typography>
               <Typography
                 variant="body1"
@@ -99,7 +129,7 @@ const Profile = () => {
                   mb: 2,
                 }}
               >
-                user@example.com
+                {user.email}
               </Typography>
               <Typography
                 variant="body2"
@@ -176,8 +206,30 @@ const Profile = () => {
               }}
             >
               <TextField
-                label="Full Name"
-                defaultValue="User Name"
+                label="First Name"
+                defaultValue={user.firstName}
+                fullWidth
+                variant="outlined"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: '#F8F9FA',
+                    borderRadius: '8px',
+                    '& fieldset': {
+                      borderColor: '#E0E0E0',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#1E90FF',
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: '#1E90FF',
+                    },
+                  },
+                }}
+              />
+              
+              <TextField
+                label="Last Name"
+                defaultValue={user.lastName}
                 fullWidth
                 variant="outlined"
                 sx={{
@@ -199,45 +251,22 @@ const Profile = () => {
               
               <TextField
                 label="Email"
-                defaultValue="user@example.com"
+                defaultValue={user.email}
                 fullWidth
                 variant="outlined"
+                disabled
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    backgroundColor: '#F8F9FA',
+                    backgroundColor: '#F5F5F5',
                     borderRadius: '8px',
                     '& fieldset': {
                       borderColor: '#E0E0E0',
                     },
-                    '&:hover fieldset': {
-                      borderColor: '#1E90FF',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#1E90FF',
-                    },
-                  },
-                }}
-              />
-              
-              <TextField
-                label="Bio"
-                multiline
-                rows={4}
-                defaultValue="Theme designer and developer creating beautiful user interfaces with passion for clean, modern design and user experience."
-                fullWidth
-                variant="outlined"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    backgroundColor: '#F8F9FA',
-                    borderRadius: '8px',
-                    '& fieldset': {
-                      borderColor: '#E0E0E0',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: '#1E90FF',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#1E90FF',
+                    '&.Mui-disabled': {
+                      backgroundColor: '#F5F5F5',
+                      '& fieldset': {
+                        borderColor: '#E0E0E0',
+                      },
                     },
                   },
                 }}
@@ -253,43 +282,11 @@ const Profile = () => {
                 }}
               >
                 <Button 
-                  variant="contained" 
                   size="large"
-                  sx={{
-                    backgroundColor: '#1E90FF',
-                    borderRadius: '8px',
-                    padding: '12px 24px',
-                    textTransform: 'none',
-                    fontWeight: 500,
-                    fontSize: '0.875rem',
-                    boxShadow: 'none',
-                    '&:hover': {
-                      backgroundColor: '#0066CC',
-                      boxShadow: 'none',
-                      transform: 'scale(1.02)',
-                    },
-                    transition: 'all 0.2s ease-in-out',
-                  }}
+                  variant='outlined'
+                  onClick={() => navigate(ROUTES.HOME)}
                 >
-                  Save Changes
-                </Button>
-                <Button 
-                  variant="text" 
-                  size="large"
-                  sx={{
-                    color: '#1E90FF',
-                    borderRadius: '8px',
-                    padding: '12px 24px',
-                    textTransform: 'none',
-                    fontWeight: 400,
-                    fontSize: '0.875rem',
-                    '&:hover': {
-                      backgroundColor: 'rgba(30, 144, 255, 0.04)',
-                    },
-                    transition: 'all 0.2s ease-in-out',
-                  }}
-                >
-                  Cancel
+                  Back
                 </Button>
               </Box>
             </Box>

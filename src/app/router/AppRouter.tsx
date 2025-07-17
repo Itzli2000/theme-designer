@@ -42,12 +42,6 @@ const AppRouter = () => {
     <BrowserRouter>
       <React.Suspense fallback={<LoadingFallback />}>
         <Routes>
-          {/* Auth Routes - using AuthLayout */}
-          <Route path="/auth" element={<AuthLayout />}>
-            <Route path="login" element={<LoginProvider />} />
-            <Route path="register" element={<RegisterProvider />} />
-          </Route>
-
           {/* Direct auth routes */}
           <Route path="/login" element={<AuthLayout />}>
             <Route index element={<LoginProvider />} />
@@ -76,10 +70,7 @@ const AppRouter = () => {
             </Route>
 
             {/* Profile Routes */}
-            <Route path="profile">
-              <Route index element={<Profile />} />
-              <Route path=":section" element={<Profile />} />
-            </Route>
+            <Route path="profile" element={<Profile />} />
 
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />
