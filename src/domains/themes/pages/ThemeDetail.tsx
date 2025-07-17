@@ -1,11 +1,18 @@
 import { ROUTES } from '@app/router/constants';
 import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material';
 import { ThemeProvider } from '@shared/components';
-import { Link as RouterLink } from 'react-router';
+import { Link as RouterLink, useParams } from 'react-router';
 import { useThemesStore } from '../store';
+import { useMemo } from 'react';
 
 const ThemeDetail = () => {
-  const { selectedTheme } = useThemesStore();
+  const {id} = useParams();
+  const { themes } = useThemesStore();
+  console.log(themes)
+
+  const selectedTheme = useMemo(() => {
+    return themes?.find((theme) => theme.id === id);
+  }, [themes, id]);
 
   if (!selectedTheme) return <div>Theme not found</div>;
 

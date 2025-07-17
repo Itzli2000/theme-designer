@@ -1,27 +1,27 @@
-import { 
-  Box, 
-  Card, 
-  CardContent, 
-  Typography, 
+import { useThemesStore } from "@domains/themes/store";
+import {
+  Add as AddIcon,
+  Palette as PaletteIcon,
+  Visibility as VisibilityIcon
+} from "@mui/icons-material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
   Container,
   Grid,
-  Button,
-  Avatar,
-  Chip,
   LinearProgress,
+  Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { useDashboardStore } from "../store";
 import { useNavigate } from "react-router";
-import { 
-  Add as AddIcon, 
-  Palette as PaletteIcon, 
-  Visibility as VisibilityIcon 
-} from "@mui/icons-material";
 
 const Dashboard = () => {
   const { themes, pagination, isLoading, error, fetchThemes } =
-    useDashboardStore();
+  useThemesStore();
   const navigate = useNavigate();
 
   useEffect(() => {
