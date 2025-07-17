@@ -2,13 +2,15 @@ import type { Theme } from '@domains/themes/store/types';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { DemoComponents } from './DemoComponents';
 
 interface ThemeProviderProps {
   selectedTheme?: Theme | null;
+  children?: ReactNode;
 }
 
-export const ThemeProvider = ({ selectedTheme }: ThemeProviderProps) => {
+export const ThemeProvider = ({ selectedTheme, children }: ThemeProviderProps) => {
   const muiTheme = useMemo(() => {
     if (!selectedTheme?.themeConfig) {
       return createTheme();
@@ -30,7 +32,7 @@ export const ThemeProvider = ({ selectedTheme }: ThemeProviderProps) => {
   return (
     <MuiThemeProvider theme={muiTheme}>
       <CssBaseline />
-      <DemoComponents />
+      {children || <DemoComponents />}
     </MuiThemeProvider>
   );
 };

@@ -9,7 +9,18 @@ const getThemes = async () => {
 const createTheme = async (
   theme: Omit<Theme, "id" | "createdAt" | "updatedAt" | "userId">
 ) => {
-  const response = await httpClient.post<Theme>("/themes", theme);
+  const {
+    name,
+    description,
+    themeConfig,
+    tags,
+  } = theme;
+  const response = await httpClient.post<Theme>("/themes/create", {
+    name,
+    description,
+    themeConfig,
+    tags,
+  });
   return response;
 };
 

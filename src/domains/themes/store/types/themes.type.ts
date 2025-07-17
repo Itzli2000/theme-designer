@@ -11,10 +11,10 @@ export interface ThemeResponse {
 export interface Theme {
   id: string;
   name: string;
-  description: null;
+  description: string | null;
   themeConfig: ThemeConfig;
-  previewImage: null;
-  tags: null;
+  previewImage: string | null;
+  tags: string[] | null;
   isActive: boolean;
   createdById: string;
   updatedById: string;
@@ -24,7 +24,7 @@ export interface Theme {
   updatedAt: string;
 }
 
-interface CreatedBy {
+export interface CreatedBy {
   id: string;
   email: string;
   firstName: string;
