@@ -6,35 +6,72 @@ import {
   Button,
   TextField,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Chip,
   Alert,
   Stepper,
   Step,
   StepLabel,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  Container,
+  Paper,
+  Fade,
+  ToggleButton,
+  ToggleButtonGroup,
+  Breadcrumbs,
+  Link,
+  Divider,
+  CircularProgress,
+  LinearProgress,
+  Tooltip,
 } from '@mui/material';
 import {
-  ExpandMore as ExpandMoreIcon,
-  Palette as PaletteIcon,
-  Visibility as VisibilityIcon,
+  ArrowBack as ArrowBackIcon,
+  ArrowForward as ArrowForwardIcon,
   Save as SaveIcon,
+  Info as InfoIcon,
+  ColorLens as ColorLensIcon,
+  TextFields as TextFieldsIcon,
+  CheckCircle as CheckCircleIcon,
+  Computer as ComputerIcon,
+  Tablet as TabletIcon,
+  Smartphone as SmartphoneIcon,
+  Lightbulb as LightbulbIcon,
+  DarkMode as DarkModeIcon,
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { useThemesStore } from '../store';
 import { ThemeProvider, DemoComponents } from '@shared/components';
+import { ROUTES } from '@app/router/constants';
+import { Link as RouterLink, useNavigate } from 'react-router';
 import type { CreatedBy } from '../store/types';
 
-const steps = ['Basic Info', 'Colors', 'Preview'];
+const steps = [
+  { label: 'Basic Info', icon: InfoIcon },
+  { label: 'Colors', icon: ColorLensIcon },
+  { label: 'Typography', icon: TextFieldsIcon },
+  { label: 'Preview', icon: CheckCircleIcon },
+];
+
+const predefinedColors = [
+  { name: 'Blue', value: '#1976d2' },
+  { name: 'Purple', value: '#9c27b0' },
+  { name: 'Green', value: '#388e3c' },
+  { name: 'Orange', value: '#f57c00' },
+  { name: 'Red', value: '#d32f2f' },
+  { name: 'Teal', value: '#0097a7' },
+  { name: 'Pink', value: '#c2185b' },
+  { name: 'Indigo', value: '#303f9f' },
+  { name: 'Cyan', value: '#00acc1' },
+  { name: 'Lime', value: '#689f38' },
+  { name: 'Deep Orange', value: '#e64a19' },
+  { name: 'Brown', value: '#5d4037' },
+];
 
 const ThemeCreate = () => {
   const { createTheme } = useThemesStore();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
+  const [previewDevice, setPreviewDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
+  const [isCreating, setIsCreating] = useState(false);
   const [newTheme, setNewTheme] = useState({
     name: '',
     description: '',
@@ -88,14 +125,49 @@ const ThemeCreate = () => {
     }));
   };
 
+  const handleDeviceChange = (_event: React.MouseEvent<HTMLElement>, newDevice: 'desktop' | 'tablet' | 'mobile') => {
+    if (newDevice !== null) {
+      setPreviewDevice(newDevice);
+    }
+  };
+
+  const getDeviceWidth = (device: string) => {
+    switch (device) {
+      case 'mobile':
+        return '375px';
+      case 'tablet':
+        return '768px';
+      default:
+        return '100%';
+    }
+  };
+
+  const isStepValid = (step: number) => {
+    switch (step) {
+      case 0:
+        return newTheme.name.trim().length > 0;
+      case 1:
+        return true; // Colors always valid
+      case 2:
+        return true; // Typography always valid
+      case 3:
+        return true; // Preview always valid
+      default:
+        return false;
+    }
+  };
+
   const handleCreateTheme = async () => {
+    if (!isStepValid(activeStep)) return;
+    
+    setIsCreating(true);
     try {
       const themeToCreate = {
         ...newTheme,
         id: '',
         previewImage: null,
         tags: null,
-        isActive: true,
+        isActive: false,
         createdById: '',
         updatedById: '',
         createdBy: {} as CreatedBy,
@@ -104,29 +176,82 @@ const ThemeCreate = () => {
         updatedAt: new Date().toISOString(),
       };
       await createTheme(themeToCreate);
-      // Reset form or navigate away
-      setNewTheme({
-        name: '',
-        description: '',
-        themeConfig: {
-          palette: {
-            mode: 'light',
-            primary: { main: '#1976d2' },
-            secondary: { main: '#dc004e' },
-          },
-        },
-      });
-      setActiveStep(0);
+      
+      // Navigate to themes list
+      navigate(ROUTES.THEMES);
     } catch (error) {
       console.error('Error creating theme:', error);
+    } finally {
+      setIsCreating(false);
     }
   };
+
+  const renderColorPicker = (
+    colorType: 'primary' | 'secondary',
+    label: string,
+    value: string
+  ) => (
+    <Box sx={{ mb: 4 }}>
+      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
+        {label}
+      </Typography>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))', gap: 1, mb: 2 }}>
+        {predefinedColors.map((color) => (
+          <Tooltip key={color.name} title={color.name}>
+            <Box
+              sx={{
+                width: 60,
+                height: 60,
+                backgroundColor: color.value,
+                borderRadius: '8px',
+                cursor: 'pointer',
+                border: value === color.value ? '3px solid #1E90FF' : '1px solid rgba(0,0,0,0.1)',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                },
+              }}
+              onClick={() => handleColorChange(colorType, color.value)}
+            />
+          </Tooltip>
+        ))}
+      </Box>
+      <TextField
+        label="Custom Color"
+        type="color"
+        value={value}
+        onChange={(e) => handleColorChange(colorType, e.target.value)}
+        sx={{ mt: 2 }}
+        fullWidth
+      />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+        <Chip
+          label={label}
+          sx={{ bgcolor: value, color: 'white' }}
+        />
+        <Typography variant="body2" color="text.secondary">
+          {value}
+        </Typography>
+      </Box>
+    </Box>
+  );
 
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
         return (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
+              <InfoIcon sx={{ fontSize: 48, color: '#1E90FF', mb: 2 }} />
+              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+                Basic Information
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Let's start with the basics. Give your theme a name and description.
+              </Typography>
+            </Box>
+            
             <TextField
               label="Theme Name"
               value={newTheme.name}
@@ -134,165 +259,346 @@ const ThemeCreate = () => {
               fullWidth
               variant="outlined"
               required
+              error={!newTheme.name.trim() && activeStep > 0}
+              helperText={!newTheme.name.trim() && activeStep > 0 ? 'Theme name is required' : ''}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#F8F9FA',
+                  borderRadius: '8px',
+                },
+              }}
             />
+            
             <TextField
               label="Description"
               value={newTheme.description}
               onChange={(e) => setNewTheme(prev => ({ ...prev, description: e.target.value }))}
               multiline
-              rows={3}
+              rows={4}
               fullWidth
               variant="outlined"
               helperText="Optional: Describe your theme's purpose and style"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#F8F9FA',
+                  borderRadius: '8px',
+                },
+              }}
             />
-            <FormControl fullWidth>
-              <InputLabel>Theme Mode</InputLabel>
-              <Select
-                value={newTheme.themeConfig.palette.mode}
-                label="Theme Mode"
-                onChange={(e) => handleModeChange(e.target.value as 'light' | 'dark')}
-              >
-                <MenuItem value="light">Light</MenuItem>
-                <MenuItem value="dark">Dark</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        );
-      case 1:
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">Primary Colors</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <TextField
-                    label="Primary Color"
-                    type="color"
-                    value={newTheme.themeConfig.palette.primary.main}
-                    onChange={(e) => handleColorChange('primary', e.target.value)}
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Chip
-                      label="Primary"
-                      sx={{ bgcolor: newTheme.themeConfig.palette.primary.main, color: 'white' }}
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      {newTheme.themeConfig.palette.primary.main}
-                    </Typography>
-                  </Box>
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">Secondary Colors</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <TextField
-                    label="Secondary Color"
-                    type="color"
-                    value={newTheme.themeConfig.palette.secondary.main}
-                    onChange={(e) => handleColorChange('secondary', e.target.value)}
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Chip
-                      label="Secondary"
-                      sx={{ bgcolor: newTheme.themeConfig.palette.secondary.main, color: 'white' }}
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      {newTheme.themeConfig.palette.secondary.main}
-                    </Typography>
-                  </Box>
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          </Box>
-        );
-      case 2:
-        return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <Alert severity="info">
-              <Typography variant="body2">
-                Review your theme before creating it. You can always edit it later.
+            
+            <Box>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                Theme Mode
               </Typography>
-            </Alert>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Typography variant="h6">Theme Summary</Typography>
-              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                <Chip label={`Name: ${newTheme.name}`} />
-                <Chip label={`Mode: ${newTheme.themeConfig.palette.mode}`} />
-                <Chip
-                  label="Primary"
-                  sx={{ bgcolor: newTheme.themeConfig.palette.primary.main, color: 'white' }}
-                />
-                <Chip
-                  label="Secondary"
-                  sx={{ bgcolor: newTheme.themeConfig.palette.secondary.main, color: 'white' }}
-                />
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <Button
+                  variant={newTheme.themeConfig.palette.mode === 'light' ? 'contained' : 'outlined'}
+                  onClick={() => handleModeChange('light')}
+                  startIcon={<LightbulbIcon />}
+                  sx={{ flex: 1, p: 2 }}
+                >
+                  Light Mode
+                </Button>
+                <Button
+                  variant={newTheme.themeConfig.palette.mode === 'dark' ? 'contained' : 'outlined'}
+                  onClick={() => handleModeChange('dark')}
+                  startIcon={<DarkModeIcon />}
+                  sx={{ flex: 1, p: 2 }}
+                >
+                  Dark Mode
+                </Button>
               </Box>
             </Box>
           </Box>
         );
+        
+      case 1:
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
+              <ColorLensIcon sx={{ fontSize: 48, color: '#1E90FF', mb: 2 }} />
+              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+                Choose Colors
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Select your theme's color palette. You can choose from presets or use custom colors.
+              </Typography>
+            </Box>
+            
+            {renderColorPicker('primary', 'Primary Color', newTheme.themeConfig.palette.primary.main)}
+            {renderColorPicker('secondary', 'Secondary Color', newTheme.themeConfig.palette.secondary.main)}
+          </Box>
+        );
+        
+      case 2:
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
+              <TextFieldsIcon sx={{ fontSize: 48, color: '#1E90FF', mb: 2 }} />
+              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+                Typography
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Typography customization will be available in future updates.
+              </Typography>
+            </Box>
+            
+            <Alert severity="info" sx={{ mb: 3 }}>
+              <Typography variant="body2">
+                For now, your theme will use the default typography settings. Advanced typography customization is coming soon!
+              </Typography>
+            </Alert>
+            
+            <Box sx={{ p: 4, bgcolor: '#F8F9FA', borderRadius: 2, textAlign: 'center' }}>
+              <Typography variant="h4" gutterBottom>
+                Sample Heading
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                Subtitle Text
+              </Typography>
+              <Typography variant="body1" paragraph>
+                This is a sample paragraph showing how your theme's typography will look.
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Secondary text in smaller size.
+              </Typography>
+            </Box>
+          </Box>
+        );
+        
+      case 3:
+        return (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
+              <CheckCircleIcon sx={{ fontSize: 48, color: '#4CAF50', mb: 2 }} />
+              <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+                Preview & Confirmation
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Review your theme configuration and create it.
+              </Typography>
+            </Box>
+            
+            <Card sx={{ p: 3, bgcolor: '#F8F9FA' }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                Theme Summary
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" color="text.secondary">Name</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{newTheme.name}</Typography>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" color="text.secondary">Mode</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>{newTheme.themeConfig.palette.mode}</Typography>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <Typography variant="body2" color="text.secondary">Description</Typography>
+                  <Typography variant="body1">{newTheme.description || 'No description'}</Typography>
+                </Grid>
+              </Grid>
+              
+              <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ 
+                    width: 20, 
+                    height: 20, 
+                    bgcolor: newTheme.themeConfig.palette.primary.main,
+                    borderRadius: '4px'
+                  }} />
+                  <Typography variant="body2">Primary</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ 
+                    width: 20, 
+                    height: 20, 
+                    bgcolor: newTheme.themeConfig.palette.secondary.main,
+                    borderRadius: '4px'
+                  }} />
+                  <Typography variant="body2">Secondary</Typography>
+                </Box>
+              </Box>
+            </Card>
+            
+            <Alert severity="success">
+              <Typography variant="body2">
+                Your theme is ready to be created! Click "Create Theme" to save it.
+              </Typography>
+            </Alert>
+          </Box>
+        );
+        
       default:
-        return 'Unknown step';
+        return null;
     }
   };
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <PaletteIcon />
-        Create New Theme
-      </Typography>
+    <Container maxWidth={false} sx={{ py: 4 }}>
+      {/* Breadcrumbs */}
+      <Breadcrumbs sx={{ mb: 3 }}>
+        <Link 
+          component={RouterLink} 
+          to={ROUTES.THEMES} 
+          color="inherit" 
+          underline="hover"
+        >
+          Themes
+        </Link>
+        <Typography color="text.primary">Create Theme</Typography>
+      </Breadcrumbs>
 
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12, lg: 6 }}>
-          <Card>
-            <CardContent>
-              <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
+      {/* Page Header */}
+      <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Typography variant="h1" sx={{ fontSize: '2.5rem', fontWeight: 700, color: '#333333', mb: 2 }}>
+          Create New Theme
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          Build your custom theme with our step-by-step wizard
+        </Typography>
+      </Box>
 
-              <Box sx={{ mb: 4 }}>
-                {getStepContent(activeStep)}
-              </Box>
+      {/* Progress Bar */}
+      <Box sx={{ mb: 4 }}>
+        <LinearProgress 
+          variant="determinate" 
+          value={(activeStep + 1) / steps.length * 100} 
+          sx={{ 
+            height: 8, 
+            borderRadius: 4,
+            backgroundColor: '#E0E0E0',
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: '#1E90FF',
+              borderRadius: 4,
+            },
+          }} 
+        />
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, textAlign: 'center' }}>
+          Step {activeStep + 1} of {steps.length}
+        </Typography>
+      </Box>
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      {/* Stepper */}
+      <Card sx={{ mb: 4, borderRadius: '12px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
+        <CardContent sx={{ p: 4 }}>
+          <Stepper 
+            activeStep={activeStep} 
+            alternativeLabel
+            sx={{ 
+              mb: 0,
+              '& .MuiStepLabel-label': {
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                '&.Mui-active': {
+                  color: '#1E90FF',
+                  fontWeight: 600,
+                },
+                '&.Mui-completed': {
+                  color: '#4CAF50',
+                },
+              },
+            }}
+          >
+            {steps.map((step, index) => (
+              <Step key={step.label} completed={index < activeStep}>
+                <StepLabel
+                  StepIconComponent={({ active, completed }) => (
+                    <Box sx={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      bgcolor: completed ? '#4CAF50' : active ? '#1E90FF' : '#E0E0E0',
+                      color: completed || active ? 'white' : '#757575',
+                      transition: 'all 0.3s ease',
+                    }}>
+                      {completed ? (
+                        <CheckCircleIcon sx={{ fontSize: 20 }} />
+                      ) : (
+                        <step.icon sx={{ fontSize: 20 }} />
+                      )}
+                    </Box>
+                  )}
+                >
+                  {step.label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </CardContent>
+      </Card>
+
+      {/* Main Content */}
+      <Grid container spacing={4}>
+        {/* Form Panel */}
+        <Grid size={{ xs: 12, lg: 5 }}>
+          <Card sx={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', minHeight: '600px' }}>
+            <CardContent sx={{ p: 4 }}>
+              <Fade in key={activeStep} timeout={300}>
+                <Box>
+                  {getStepContent(activeStep)}
+                </Box>
+              </Fade>
+            </CardContent>
+            
+            <Divider />
+            
+            <CardContent sx={{ p: 4 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}
                   variant="outlined"
+                  startIcon={<ArrowBackIcon />}
+                  sx={{ 
+                    borderRadius: '8px',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                  }}
                 >
                   Back
                 </Button>
-                <Box sx={{ flex: '1 1 auto' }} />
+                
+                <Typography variant="body2" color="text.secondary">
+                  Step {activeStep + 1} of {steps.length}
+                </Typography>
+                
                 {activeStep === steps.length - 1 ? (
                   <Button
                     onClick={handleCreateTheme}
                     variant="contained"
                     size="large"
-                    startIcon={<SaveIcon />}
-                    disabled={!newTheme.name.trim()}
+                    startIcon={isCreating ? <CircularProgress size={16} /> : <SaveIcon />}
+                    disabled={!isStepValid(activeStep) || isCreating}
+                    sx={{
+                      borderRadius: '8px',
+                      textTransform: 'none',
+                      fontWeight: 500,
+                      boxShadow: 'none',
+                      '&:hover': {
+                        boxShadow: '0 2px 8px rgba(30, 144, 255, 0.3)',
+                      },
+                    }}
                   >
-                    Create Theme
+                    {isCreating ? 'Creating...' : 'Create Theme'}
                   </Button>
                 ) : (
                   <Button
                     onClick={handleNext}
                     variant="contained"
-                    disabled={activeStep === 0 && !newTheme.name.trim()}
+                    endIcon={<ArrowForwardIcon />}
+                    disabled={!isStepValid(activeStep)}
+                    sx={{
+                      borderRadius: '8px',
+                      textTransform: 'none',
+                      fontWeight: 500,
+                      boxShadow: 'none',
+                      '&:hover': {
+                        boxShadow: '0 2px 8px rgba(30, 144, 255, 0.3)',
+                      },
+                    }}
                   >
                     Next
                   </Button>
@@ -302,43 +608,79 @@ const ThemeCreate = () => {
           </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, lg: 6 }}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <VisibilityIcon />
-                Live Preview
-              </Typography>
-              <Box
-                sx={{
-                  border: 1,
-                  borderColor: 'divider',
-                  borderRadius: 1,
-                  overflow: 'hidden',
-                  minHeight: '500px',
+        {/* Preview Panel */}
+        <Grid size={{ xs: 12, lg: 7 }}>
+          <Card sx={{ 
+            borderRadius: '12px', 
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            position: 'sticky',
+            top: 24,
+            maxHeight: 'calc(100vh - 160px)',
+            overflow: 'auto',
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  Live Preview
+                </Typography>
+                <ToggleButtonGroup
+                  value={previewDevice}
+                  exclusive
+                  onChange={handleDeviceChange}
+                  size="small"
+                  sx={{ '& .MuiToggleButton-root': { px: 1 } }}
+                >
+                  <ToggleButton value="desktop" aria-label="desktop">
+                    <ComputerIcon fontSize="small" />
+                  </ToggleButton>
+                  <ToggleButton value="tablet" aria-label="tablet">
+                    <TabletIcon fontSize="small" />
+                  </ToggleButton>
+                  <ToggleButton value="mobile" aria-label="mobile">
+                    <SmartphoneIcon fontSize="small" />
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+
+              <Paper 
+                variant="outlined" 
+                sx={{ 
+                  borderRadius: '8px',
+                  p: 2,
+                  backgroundColor: '#F8F9FA',
+                  minHeight: '400px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                <ThemeProvider selectedTheme={{
-                  ...newTheme,
-                  id: 'preview',
-                  previewImage: null,
-                  tags: null,
-                  isActive: true,
-                  createdById: '',
-                  updatedById: '',
-                  createdBy: {} as CreatedBy,
-                  updatedBy: {} as CreatedBy,
-                  createdAt: new Date().toISOString(),
-                  updatedAt: new Date().toISOString(),
+                <Box sx={{ 
+                  width: getDeviceWidth(previewDevice),
+                  maxWidth: '100%',
+                  transition: 'all 0.3s ease-in-out',
                 }}>
-                  <DemoComponents />
-                </ThemeProvider>
-              </Box>
+                  <ThemeProvider selectedTheme={{
+                    ...newTheme,
+                    id: 'preview',
+                    previewImage: null,
+                    tags: null,
+                    isActive: true,
+                    createdById: '',
+                    updatedById: '',
+                    createdBy: {} as CreatedBy,
+                    updatedBy: {} as CreatedBy,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                  }}>
+                    <DemoComponents />
+                  </ThemeProvider>
+                </Box>
+              </Paper>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };
 
