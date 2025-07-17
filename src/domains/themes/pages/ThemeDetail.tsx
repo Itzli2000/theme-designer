@@ -1,5 +1,6 @@
 import { ROUTES } from '@app/router/constants';
 import { Box, Button, Card, CardContent, Chip, Typography } from '@mui/material';
+import { ThemeProvider } from '@shared/components';
 import { Link as RouterLink } from 'react-router';
 import { useThemesStore } from '../store';
 
@@ -52,6 +53,9 @@ const ThemeDetail = () => {
           </Box>
         </CardContent>
       </Card>
+      <Box sx={{ mt: 3 }}>
+        <ThemeProvider selectedTheme={selectedTheme} />
+      </Box>
     </Box>
   );
 };

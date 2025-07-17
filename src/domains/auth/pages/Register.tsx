@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Card, CardContent, Typography } from '@mui/material';
-import { RHFTextField } from '@shared/components/RHFTextField';
+import { RHFTextField } from '@shared/components';
 import { useFormContext } from 'react-hook-form';
 import { type RegisterSchema } from '../schemas/register.schema';
 import { useRegisterStore } from '../stores';

@@ -1,7 +1,7 @@
 import httpClient from "@shared/services/http";
 import type { Theme, ThemeResponse } from "../store/types";
 
-const getThemes = async ()  => {
+const getThemes = async () => {
   const response = await httpClient.get<ThemeResponse>("/themes");
   return response;
 };
@@ -13,11 +13,19 @@ const createTheme = async (
   return response;
 };
 
-const updateTheme = async (
-  id: string,
-  theme: Partial<Theme>
-) => {
-  const response = await httpClient.put<Theme>(`/themes/${id}`, theme);
+const updateTheme = async (id: string, theme: Partial<Theme>) => {
+  const {
+    name,
+    description,
+    themeConfig,
+    tags,
+  } = theme;
+  const response = await httpClient.patch<Theme>(`/themes/${id}`, {
+    name,
+    description,
+    themeConfig,
+    tags,
+  });
   return response;
 };
 
