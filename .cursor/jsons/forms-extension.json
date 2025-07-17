@@ -1,0 +1,433 @@
+{
+    "formsExtension": {
+      "name": "Advanced Forms Extension",
+      "description": "Extensions for multi-step forms, wizards, and complex form layouts",
+      "basedOn": "design-system-base.json",
+      "targetViews": ["create-theme", "edit-theme"]
+    },
+    "layoutPatterns": {
+      "splitFormLayout": {
+        "container": {
+          "display": "grid",
+          "gridTemplateColumns": {
+            "mobile": "1fr",
+            "desktop": "1fr 400px"
+          },
+          "gap": "32px",
+          "minHeight": "calc(100vh - 120px)"
+        },
+        "formPanel": {
+          "background": "#FFFFFF",
+          "borderRadius": "12px",
+          "padding": "32px",
+          "boxShadow": "0 2px 8px rgba(0, 0, 0, 0.1)",
+          "height": "fit-content"
+        },
+        "previewPanel": {
+          "background": "#FFFFFF",
+          "borderRadius": "12px",
+          "padding": "24px",
+          "boxShadow": "0 2px 8px rgba(0, 0, 0, 0.1)",
+          "position": "sticky",
+          "top": "24px",
+          "maxHeight": "calc(100vh - 160px)",
+          "overflow": "auto"
+        }
+      },
+      "wizardLayout": {
+        "container": {
+          "maxWidth": "800px",
+          "margin": "0 auto"
+        },
+        "header": {
+          "textAlign": "center",
+          "marginBottom": "32px"
+        },
+        "stepsIndicator": {
+          "marginBottom": "48px"
+        },
+        "content": {
+          "background": "#FFFFFF",
+          "borderRadius": "12px",
+          "padding": "40px",
+          "boxShadow": "0 2px 8px rgba(0, 0, 0, 0.1)"
+        },
+        "actions": {
+          "display": "flex",
+          "justifyContent": "space-between",
+          "marginTop": "32px",
+          "paddingTop": "24px",
+          "borderTop": "1px solid #E0E0E0"
+        }
+      }
+    },
+    "components": {
+      "stepIndicator": {
+        "container": {
+          "display": "flex",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "gap": "16px"
+        },
+        "step": {
+          "display": "flex",
+          "alignItems": "center",
+          "gap": "8px"
+        },
+        "stepNumber": {
+          "width": "32px",
+          "height": "32px",
+          "borderRadius": "50%",
+          "display": "flex",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "fontSize": "0.875rem",
+          "fontWeight": 600,
+          "transition": "all 0.3s ease"
+        },
+        "stepLabel": {
+          "fontSize": "0.875rem",
+          "fontWeight": 500
+        },
+        "connector": {
+          "width": "24px",
+          "height": "2px",
+          "background": "#E0E0E0"
+        },
+        "states": {
+          "active": {
+            "stepNumber": {
+              "background": "#1E90FF",
+              "color": "#FFFFFF"
+            },
+            "stepLabel": {
+              "color": "#1E90FF"
+            }
+          },
+          "completed": {
+            "stepNumber": {
+              "background": "#4CAF50",
+              "color": "#FFFFFF"
+            },
+            "stepLabel": {
+              "color": "#4CAF50"
+            },
+            "connector": {
+              "background": "#4CAF50"
+            }
+          },
+          "inactive": {
+            "stepNumber": {
+              "background": "#F5F5F5",
+              "color": "#757575"
+            },
+            "stepLabel": {
+              "color": "#757575"
+            }
+          }
+        }
+      },
+      "formSection": {
+        "container": {
+          "marginBottom": "32px"
+        },
+        "title": {
+          "typography": "h6",
+          "fontWeight": 600,
+          "marginBottom": "16px",
+          "color": "#333333"
+        },
+        "description": {
+          "typography": "body2",
+          "color": "#757575",
+          "marginBottom": "24px"
+        },
+        "content": {
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "20px"
+        }
+      },
+      "fieldGroup": {
+        "container": {
+          "display": "grid",
+          "gap": "16px"
+        },
+        "twoColumn": {
+          "gridTemplateColumns": {
+            "mobile": "1fr",
+            "tablet": "1fr 1fr"
+          }
+        },
+        "threeColumn": {
+          "gridTemplateColumns": {
+            "mobile": "1fr",
+            "tablet": "repeat(3, 1fr)"
+          }
+        }
+      },
+      "colorPicker": {
+        "container": {
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "12px"
+        },
+        "label": {
+          "typography": "body2",
+          "fontWeight": 500,
+          "color": "#333333"
+        },
+        "colorGrid": {
+          "display": "grid",
+          "gridTemplateColumns": "repeat(auto-fill, minmax(40px, 1fr))",
+          "gap": "8px",
+          "maxWidth": "280px"
+        },
+        "colorSwatch": {
+          "width": "40px",
+          "height": "40px",
+          "borderRadius": "8px",
+          "border": "2px solid transparent",
+          "cursor": "pointer",
+          "transition": "all 0.2s ease",
+          "hover": {
+            "transform": "scale(1.1)"
+          },
+          "selected": {
+            "border": "2px solid #1E90FF",
+            "transform": "scale(1.1)"
+          }
+        },
+        "customInput": {
+          "marginTop": "8px"
+        }
+      },
+      "previewSection": {
+        "header": {
+          "display": "flex",
+          "justifyContent": "space-between",
+          "alignItems": "center",
+          "marginBottom": "16px"
+        },
+        "title": {
+          "typography": "h6",
+          "fontWeight": 600,
+          "color": "#333333"
+        },
+        "deviceToggle": {
+          "display": "flex",
+          "gap": "4px"
+        },
+        "viewport": {
+          "border": "1px solid #E0E0E0",
+          "borderRadius": "8px",
+          "overflow": "hidden",
+          "background": "#F8F9FA"
+        },
+        "content": {
+          "padding": "20px",
+          "background": "#FFFFFF",
+          "minHeight": "300px"
+        }
+      },
+      "tabsConfiguration": {
+        "container": {
+          "marginBottom": "24px"
+        },
+        "tabList": {
+          "borderBottom": "1px solid #E0E0E0",
+          "marginBottom": "24px"
+        },
+        "tab": {
+          "textTransform": "none",
+          "fontWeight": 500,
+          "fontSize": "0.875rem",
+          "minHeight": "48px"
+        },
+        "tabPanel": {
+          "padding": "0"
+        }
+      },
+      "actionButtons": {
+        "container": {
+          "display": "flex",
+          "gap": "12px",
+          "justifyContent": "flex-end"
+        },
+        "secondary": {
+          "variant": "outlined",
+          "color": "inherit",
+          "textTransform": "none"
+        },
+        "primary": {
+          "variant": "contained",
+          "color": "primary",
+          "textTransform": "none"
+        },
+        "back": {
+          "variant": "text",
+          "color": "inherit",
+          "textTransform": "none"
+        }
+      }
+    },
+    "formValidation": {
+      "fieldStates": {
+        "error": {
+          "borderColor": "#F44336",
+          "background": "#FFEBEE"
+        },
+        "success": {
+          "borderColor": "#4CAF50",
+          "background": "#E8F5E8"
+        },
+        "warning": {
+          "borderColor": "#FF9800",
+          "background": "#FFF3E0"
+        }
+      },
+      "messageStyles": {
+        "error": {
+          "color": "#F44336",
+          "fontSize": "0.75rem",
+          "marginTop": "4px"
+        },
+        "helper": {
+          "color": "#757575",
+          "fontSize": "0.75rem",
+          "marginTop": "4px"
+        }
+      }
+    },
+    "materialUIOverrides": {
+      "MuiStepper": {
+        "styleOverrides": {
+          "root": {
+            "padding": "24px 0"
+          }
+        }
+      },
+      "MuiStep": {
+        "styleOverrides": {
+          "root": {
+            "padding": "0 8px"
+          }
+        }
+      },
+      "MuiStepLabel": {
+        "styleOverrides": {
+          "label": {
+            "fontSize": "0.875rem",
+            "fontWeight": 500,
+            "&.Mui-active": {
+              "color": "#1E90FF",
+              "fontWeight": 600
+            },
+            "&.Mui-completed": {
+              "color": "#4CAF50"
+            }
+          }
+        }
+      },
+      "MuiTextField": {
+        "styleOverrides": {
+          "root": {
+            "& .MuiOutlinedInput-root": {
+              "borderRadius": "8px",
+              "backgroundColor": "#F8F9FA",
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                "borderColor": "#1E90FF"
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                "borderColor": "#1E90FF",
+                "borderWidth": "2px"
+              }
+            }
+          }
+        }
+      },
+      "MuiSelect": {
+        "styleOverrides": {
+          "root": {
+            "borderRadius": "8px",
+            "backgroundColor": "#F8F9FA"
+          }
+        }
+      }
+    },
+    "wizardSteps": {
+      "createTheme": {
+        "steps": [
+          {
+            "id": "basic-info",
+            "label": "Basic Info",
+            "fields": ["name", "description", "mode"]
+          },
+          {
+            "id": "colors",
+            "label": "Colors",
+            "fields": ["primaryColor", "secondaryColor", "backgroundColor"]
+          },
+          {
+            "id": "typography",
+            "label": "Typography",
+            "fields": ["fontFamily", "fontSizes", "fontWeights"]
+          },
+          {
+            "id": "preview",
+            "label": "Preview",
+            "fields": ["preview", "confirmation"]
+          }
+        ]
+      },
+      "editTheme": {
+        "tabs": [
+          {
+            "id": "general",
+            "label": "General",
+            "icon": "SettingsIcon"
+          },
+          {
+            "id": "colors",
+            "label": "Colors",
+            "icon": "PaletteIcon"
+          },
+          {
+            "id": "typography",
+            "label": "Typography",
+            "icon": "TextFormatIcon"
+          },
+          {
+            "id": "components",
+            "label": "Components",
+            "icon": "WidgetsIcon"
+          }
+        ]
+      }
+    },
+    "animations": {
+      "stepTransition": {
+        "enter": {
+          "animation": "slideInRight 0.3s ease-out",
+          "keyframes": {
+            "0%": { "transform": "translateX(30px)", "opacity": 0 },
+            "100%": { "transform": "translateX(0)", "opacity": 1 }
+          }
+        },
+        "exit": {
+          "animation": "slideOutLeft 0.3s ease-in",
+          "keyframes": {
+            "0%": { "transform": "translateX(0)", "opacity": 1 },
+            "100%": { "transform": "translateX(-30px)", "opacity": 0 }
+          }
+        }
+      },
+      "fieldFocus": {
+        "transition": "all 0.2s ease-in-out",
+        "transform": "scale(1.02)"
+      },
+      "previewUpdate": {
+        "transition": "all 0.3s ease-in-out"
+      }
+    }
+  }
