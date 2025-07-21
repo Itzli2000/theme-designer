@@ -1236,6 +1236,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webfontloader@npm:^1":
+  version: 1.6.38
+  resolution: "@types/webfontloader@npm:1.6.38"
+  checksum: 10c0/1239fc17e6705b7dcea5f8013a711bb2f9cb2f4dd637b414448949efdc97c8cc859e47bf44f31a24e8b9495ebaefa7086e35ea0b7072cde6410d5c36f81a460d
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/eslint-plugin@npm:8.37.0":
   version: 8.37.0
   resolution: "@typescript-eslint/eslint-plugin@npm:8.37.0"
@@ -3573,6 +3580,7 @@ __metadata:
     "@types/node": "npm:^24.0.13"
     "@types/react": "npm:^19.1.8"
     "@types/react-dom": "npm:^19.1.6"
+    "@types/webfontloader": "npm:^1"
     "@vitejs/plugin-react": "npm:^4.6.0"
     axios: "npm:^1.10.0"
     eslint: "npm:^9.30.1"
@@ -3587,6 +3595,7 @@ __metadata:
     typescript: "npm:~5.8.3"
     typescript-eslint: "npm:^8.35.1"
     vite: "npm:^7.0.4"
+    webfontloader: "npm:^1.6.28"
     zod: "npm:^4.0.5"
     zustand: "npm:^5.0.6"
   languageName: unknown
@@ -3764,6 +3773,13 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 10c0/2eb3572d60e8e6f0e291905e30989a52042350439c03002603d27a396652bf0484e13d5e8b15e0d7bd9988a8dc03ee712d45eb83e9dcf8aab4e8ecb28b0419b6
+  languageName: node
+  linkType: hard
+
+"webfontloader@npm:^1.6.28":
+  version: 1.6.28
+  resolution: "webfontloader@npm:1.6.28"
+  checksum: 10c0/ed2db7ed8bf7b2c932d59e717875fe05c2b6c1dde06133c67e6878cf21d80f52d01b76b790533a0d346a3a90e03d951eeb8aab70d818b96b81fd6629d3af25c8
   languageName: node
   linkType: hard
 
