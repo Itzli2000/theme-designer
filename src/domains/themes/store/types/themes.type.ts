@@ -12,7 +12,7 @@ export interface Theme {
   id: string;
   name: string;
   description: string | null;
-  themeConfig: ThemeConfig;
+  themeConfig: MuiThemeConfig; // Actualizado para usar la nueva estructura
   previewImage: string | null;
   tags: string[] | null;
   isActive: boolean;
@@ -34,19 +34,71 @@ export interface CreatedBy {
   updatedAt: string;
 }
 
-interface ThemeConfig {
-  palette: Palette;
-}
+// --- INICIO: Definiciones compatibles con backend ---
 
-interface Palette {
-  mode: string;
-  primary: Primary;
-  secondary: Primary;
-}
-
-interface Primary {
+export interface MuiPaletteColor {
   main: string;
+  dark?: string;
+  light?: string;
+  contrastText?: string;
 }
+
+export interface MuiPalette {
+  mode?: 'light' | 'dark';
+  primary?: MuiPaletteColor;
+  secondary?: MuiPaletteColor;
+  error?: MuiPaletteColor;
+  warning?: MuiPaletteColor;
+  info?: MuiPaletteColor;
+  success?: MuiPaletteColor;
+}
+
+export interface MuiTypographyVariant {
+  fontFamily?: string;
+  fontWeight?: number;
+  fontSize?: string;
+  lineHeight?: number;
+  letterSpacing?: string;
+}
+
+export interface MuiTypography {
+  fontFamily?: string;
+  fontSize?: number;
+  fontWeightLight?: number;
+  fontWeightRegular?: number;
+  fontWeightMedium?: number;
+  fontWeightBold?: number;
+  h1?: MuiTypographyVariant;
+  h2?: MuiTypographyVariant;
+  h3?: MuiTypographyVariant;
+  h4?: MuiTypographyVariant;
+  h5?: MuiTypographyVariant;
+  h6?: MuiTypographyVariant;
+  subtitle1?: MuiTypographyVariant;
+  subtitle2?: MuiTypographyVariant;
+  body1?: MuiTypographyVariant;
+  body2?: MuiTypographyVariant;
+  button?: MuiTypographyVariant;
+  caption?: MuiTypographyVariant;
+  overline?: MuiTypographyVariant;
+}
+
+export interface MuiShape {
+  borderRadius?: number;
+}
+
+export interface MuiThemeConfig {
+  palette?: MuiPalette;
+  typography?: MuiTypography;
+  shape?: MuiShape;
+  spacing?: number;
+  shadows?: string[];
+  transitions?: Record<string, unknown>;
+  zIndex?: Record<string, unknown>;
+  breakpoints?: Record<string, unknown>;
+  components?: Record<string, unknown>;
+}
+// --- FIN: Definiciones compatibles con backend ---
 
 /**
  * Represents the dashboard state.
