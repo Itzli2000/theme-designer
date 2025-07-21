@@ -12,8 +12,9 @@ export interface Theme {
   id: string;
   name: string;
   description: string | null;
-  themeConfig: MuiThemeConfig; // Actualizado para usar la nueva estructura
+  themeConfig: MuiThemeConfig;
   previewImage: string | null;
+  googleFonts: string[] | null;
   tags: string[] | null;
   isActive: boolean;
   createdById: string;
@@ -33,8 +34,6 @@ export interface CreatedBy {
   createdAt: string;
   updatedAt: string;
 }
-
-// --- INICIO: Definiciones compatibles con backend ---
 
 export interface MuiPaletteColor {
   main: string;
@@ -98,7 +97,6 @@ export interface MuiThemeConfig {
   breakpoints?: Record<string, unknown>;
   components?: Record<string, unknown>;
 }
-// --- FIN: Definiciones compatibles con backend ---
 
 /**
  * Represents the dashboard state.

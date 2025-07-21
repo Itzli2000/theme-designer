@@ -226,6 +226,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ctrl/tinycolor@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@ctrl/tinycolor@npm:4.1.0"
+  checksum: 10c0/813dd960366df057006a1b93d7403ec7a48db1e79bec846d38fab15a1e0f37efd3ab96b0c780a14867ddc1f4c5a473e403c5c88e96d212c544ad934411e5307f
+  languageName: node
+  linkType: hard
+
 "@emotion/babel-plugin@npm:^11.13.5":
   version: 11.13.5
   resolution: "@emotion/babel-plugin@npm:11.13.5"
@@ -2859,6 +2866,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mui-color-input@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "mui-color-input@npm:7.0.0"
+  dependencies:
+    "@ctrl/tinycolor": "npm:^4.1.0"
+  peerDependencies:
+    "@emotion/react": ^11.13.0
+    "@emotion/styled": ^11.13.0
+    "@mui/material": ^7.0.0
+    "@types/react": ^18.0.0 || ^19.0.0
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/7f417c06d9c8b3a6f33bd86f6a1493a234f953e61dce53dc0e63919a0f88a56dab7ae7b6123abf06125366f243d5feea0dcdf4009fce18dd4a392f69c51a04fc
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.11":
   version: 3.3.11
   resolution: "nanoid@npm:3.3.11"
@@ -3553,6 +3579,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
     globals: "npm:^16.3.0"
+    mui-color-input: "npm:^7.0.0"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
     react-hook-form: "npm:^7.60.0"

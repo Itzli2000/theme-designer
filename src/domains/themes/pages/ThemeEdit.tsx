@@ -1,51 +1,52 @@
+import { ROUTES } from "@app/router/constants";
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  TextField,
-  Typography,
-  Grid,
-  Tabs,
-  Tab,
-  Chip,
-  Stack,
-  Divider,
-  IconButton,
-  Tooltip,
-  Alert,
-  Container,
-  Paper,
-  ToggleButton,
-  ToggleButtonGroup,
-  Breadcrumbs,
-  Link,
-  Fade,
-  CircularProgress,
-  Snackbar,
-} from "@mui/material";
-import {
+  ArrowBack as ArrowBackIcon,
+  CheckCircle as CheckCircleIcon,
+  Computer as ComputerIcon,
+  DarkMode as DarkModeIcon,
   Download as DownloadIcon,
-  Upload as UploadIcon,
+  Lightbulb as LightbulbIcon,
+  Palette as PaletteIcon,
   Refresh as RefreshIcon,
   Save as SaveIcon,
   Settings as SettingsIcon,
-  Palette as PaletteIcon,
-  TextFields as TextFieldsIcon,
-  Widgets as WidgetsIcon,
-  Computer as ComputerIcon,
-  Tablet as TabletIcon,
   Smartphone as SmartphoneIcon,
-  Lightbulb as LightbulbIcon,
-  DarkMode as DarkModeIcon,
-  ArrowBack as ArrowBackIcon,
-  CheckCircle as CheckCircleIcon,
+  Tablet as TabletIcon,
+  TextFields as TextFieldsIcon,
+  Upload as UploadIcon,
+  Widgets as WidgetsIcon,
 } from "@mui/icons-material";
-import { ThemeProvider, DemoComponents } from "@shared/components";
-import { useState, useEffect, useMemo } from "react";
+import {
+  Alert,
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Container,
+  Divider,
+  Fade,
+  Grid,
+  IconButton,
+  Link,
+  Paper,
+  Snackbar,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { DemoComponents, ThemeProvider } from "@shared/components";
+import { MuiColorInput } from 'mui-color-input';
+import { useEffect, useMemo, useState } from "react";
+import { Link as RouterLink, useNavigate, useParams } from "react-router";
 import { useThemesStore } from "../store";
-import { ROUTES } from "@app/router/constants";
-import { Link as RouterLink, useParams, useNavigate } from "react-router";
 import type { Theme } from "../store/types";
 
 interface TabPanelProps {
@@ -149,7 +150,7 @@ const ThemeEdit = () => {
           palette: {
             ...prev.themeConfig.palette,
             [colorType]: {
-              ...prev.themeConfig.palette[colorType],
+              ...prev.themeConfig.palette?.[colorType],
               main: value,
             },
           },
@@ -268,11 +269,11 @@ const ThemeEdit = () => {
           </Tooltip>
         ))}
       </Box>
-      <TextField
+      <MuiColorInput
         label="Custom Color"
-        type="color"
         value={value}
-        onChange={(e) => handleColorChange(colorType, e.target.value)}
+        format="hex"
+        onChange={(color) => handleColorChange(colorType, color)}
         sx={{ 
           mt: 2,
           '& .MuiOutlinedInput-root': {
@@ -454,7 +455,7 @@ const ThemeEdit = () => {
                         </Typography>
                         <Box sx={{ display: 'flex', gap: 2 }}>
                           <Button
-                            variant={editingTheme.themeConfig.palette.mode === 'light' ? 'contained' : 'outlined'}
+                            variant={editingTheme.themeConfig.palette?.mode === 'light' ? 'contained' : 'outlined'}
                             onClick={() => handleModeChange('light')}
                             startIcon={<LightbulbIcon />}
                             sx={{ flex: 1, p: 2 }}
@@ -462,7 +463,7 @@ const ThemeEdit = () => {
                             Light Mode
                           </Button>
                           <Button
-                            variant={editingTheme.themeConfig.palette.mode === 'dark' ? 'contained' : 'outlined'}
+                            variant={editingTheme.themeConfig.palette?.mode === 'dark' ? 'contained' : 'outlined'}
                             onClick={() => handleModeChange('dark')}
                             startIcon={<DarkModeIcon />}
                             sx={{ flex: 1, p: 2 }}
@@ -508,8 +509,8 @@ const ThemeEdit = () => {
                         Color Palette
                       </Typography>
                       
-                      {renderColorPicker('primary', 'Primary Color', editingTheme.themeConfig.palette.primary.main)}
-                      {renderColorPicker('secondary', 'Secondary Color', editingTheme.themeConfig.palette.secondary.main)}
+                      {renderColorPicker('primary', 'Primary Color', editingTheme.themeConfig.palette?.primary?.main || '')}
+                      {renderColorPicker('secondary', 'Secondary Color', editingTheme.themeConfig.palette?.secondary?.main || '')}
                       
                       <Box sx={{ p: 3, bgcolor: '#F8F9FA', borderRadius: 2 }}>
                         <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
@@ -520,7 +521,7 @@ const ThemeEdit = () => {
                             <Box sx={{ 
                               width: 40, 
                               height: 40, 
-                              bgcolor: editingTheme.themeConfig.palette.primary.main,
+                              bgcolor: editingTheme.themeConfig.palette?.primary?.main || '',
                               borderRadius: '8px',
                               border: '1px solid rgba(0,0,0,0.1)'
                             }} />
@@ -530,7 +531,7 @@ const ThemeEdit = () => {
                             <Box sx={{ 
                               width: 40, 
                               height: 40, 
-                              bgcolor: editingTheme.themeConfig.palette.secondary.main,
+                              bgcolor: editingTheme.themeConfig.palette?.secondary?.main || '',
                               borderRadius: '8px',
                               border: '1px solid rgba(0,0,0,0.1)'
                             }} />

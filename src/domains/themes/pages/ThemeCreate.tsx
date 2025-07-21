@@ -1,47 +1,48 @@
-import {
-  Typography,
-  Box,
-  Card,
-  CardContent,
-  Button,
-  TextField,
-  Grid,
-  Chip,
-  Alert,
-  Stepper,
-  Step,
-  StepLabel,
-  Container,
-  Paper,
-  Fade,
-  ToggleButton,
-  ToggleButtonGroup,
-  Breadcrumbs,
-  Link,
-  Divider,
-  CircularProgress,
-  LinearProgress,
-  Tooltip,
-} from '@mui/material';
+import { ROUTES } from '@app/router/constants';
 import {
   ArrowBack as ArrowBackIcon,
   ArrowForward as ArrowForwardIcon,
-  Save as SaveIcon,
-  Info as InfoIcon,
-  ColorLens as ColorLensIcon,
-  TextFields as TextFieldsIcon,
   CheckCircle as CheckCircleIcon,
+  ColorLens as ColorLensIcon,
   Computer as ComputerIcon,
-  Tablet as TabletIcon,
-  Smartphone as SmartphoneIcon,
-  Lightbulb as LightbulbIcon,
   DarkMode as DarkModeIcon,
+  Info as InfoIcon,
+  Lightbulb as LightbulbIcon,
+  Save as SaveIcon,
+  Smartphone as SmartphoneIcon,
+  Tablet as TabletIcon,
+  TextFields as TextFieldsIcon,
 } from '@mui/icons-material';
+import {
+  Alert,
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Container,
+  Divider,
+  Fade,
+  Grid,
+  LinearProgress,
+  Link,
+  Paper,
+  Step,
+  StepLabel,
+  Stepper,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { DemoComponents, ThemeProvider } from '@shared/components';
+import { MuiColorInput } from 'mui-color-input';
 import { useState } from 'react';
-import { useThemesStore } from '../store';
-import { ThemeProvider, DemoComponents } from '@shared/components';
-import { ROUTES } from '@app/router/constants';
 import { Link as RouterLink, useNavigate } from 'react-router';
+import { useThemesStore } from '../store';
 import type { CreatedBy } from '../store/types';
 
 const steps = [
@@ -174,6 +175,7 @@ const ThemeCreate = () => {
         updatedBy: {} as CreatedBy,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        googleFonts: null,
       };
       await createTheme(themeToCreate);
       
@@ -217,11 +219,11 @@ const ThemeCreate = () => {
           </Tooltip>
         ))}
       </Box>
-      <TextField
+      <MuiColorInput
         label="Custom Color"
-        type="color"
         value={value}
-        onChange={(e) => handleColorChange(colorType, e.target.value)}
+        format="hex"
+        onChange={(color) => handleColorChange(colorType, color)}
         sx={{ mt: 2 }}
         fullWidth
       />
@@ -671,6 +673,7 @@ const ThemeCreate = () => {
                     updatedBy: {} as CreatedBy,
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString(),
+                    googleFonts: null,
                   }}>
                     <DemoComponents />
                   </ThemeProvider>

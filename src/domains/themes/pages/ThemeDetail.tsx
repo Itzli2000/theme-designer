@@ -111,7 +111,7 @@ const ThemeDetail = () => {
                 sx={{
                   width: 80,
                   height: 80,
-                  bgcolor: palette.primary.main,
+                  bgcolor: palette.primary?.main,
                   borderRadius: 2,
                   border: "1px solid rgba(0, 0, 0, 0.1)",
                   mb: 1,
@@ -125,7 +125,7 @@ const ThemeDetail = () => {
                 display="block"
                 color="text.secondary"
               >
-                {palette.primary.main}
+                {palette.primary?.main}
               </Typography>
             </Box>
             <Box sx={{ textAlign: "center" }}>
@@ -133,7 +133,7 @@ const ThemeDetail = () => {
                 sx={{
                   width: 80,
                   height: 80,
-                  bgcolor: palette.secondary.main,
+                  bgcolor: palette.secondary?.main,
                   borderRadius: 2,
                   border: "1px solid rgba(0, 0, 0, 0.1)",
                   mb: 1,
@@ -147,7 +147,7 @@ const ThemeDetail = () => {
                 display="block"
                 color="text.secondary"
               >
-                {palette.secondary.main}
+                {palette.secondary?.main}
               </Typography>
             </Box>
           </Box>
@@ -220,7 +220,7 @@ const ThemeDetail = () => {
             Theme Configuration
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            Mode: {selectedTheme.themeConfig.palette.mode}
+            Mode: {selectedTheme.themeConfig.palette?.mode}
           </Typography>
           {selectedTheme.tags && selectedTheme.tags.length > 0 && (
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>

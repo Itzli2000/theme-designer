@@ -85,8 +85,8 @@ const ThemesList = () => {
 
   const renderColorPreview = (theme: Theme) => {
     const colors = [
-      theme.themeConfig.palette.primary.main,
-      theme.themeConfig.palette.secondary.main,
+      theme.themeConfig.palette?.primary?.main,
+      theme.themeConfig.palette?.secondary?.main,
     ];
     
     return (
