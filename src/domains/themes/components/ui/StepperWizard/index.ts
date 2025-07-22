@@ -1,0 +1,1 @@
+export { StepperWizard, type StepConfig } from './StepperWizard';
