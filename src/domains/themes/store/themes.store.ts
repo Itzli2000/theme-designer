@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import { themesInitialState } from "./constants";
 import type { ThemesStore, ThemeResponse } from "./types";
 import { THEMES_SERVICE } from "../services/themes";
+import { fontsService } from "../services/fonts.service";
 import { AxiosError } from "axios";
 
 export const useThemesStore = create<ThemesStore>()(
@@ -122,6 +123,37 @@ export const useThemesStore = create<ThemesStore>()(
 
       setPagination: (pagination) => {
         set({ pagination });
+      },
+
+      loadThemeFonts: async (theme) => {
+        if (!theme?.googleFonts || theme.googleFonts.length === 0) {
+          return;
+        }
+
+        try {
+          const fontLoadPromises = theme.googleFonts.map(fontFamily => {
+            const variants = ['400', '700']; // Load regular and bold by default
+            return fontsService.loadFont(fontFamily, variants);
+          });
+
+          await Promise.allSettled(fontLoadPromises);
+        } catch (error) {
+          console.warn('Failed to load some fonts:', error);
+        }
+      },
+
+      loadSelectedThemeFonts: async () => {
+        const { selectedTheme } = get();
+        if (selectedTheme) {
+          await get().loadThemeFonts(selectedTheme);
+        }
+      },
+
+      setSelectedThemeWithFonts: async (theme) => {
+        set({ selectedTheme: theme });
+        if (theme) {
+          await get().loadThemeFonts(theme);
+        }
       },
     }),
     {

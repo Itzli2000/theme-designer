@@ -48,6 +48,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router";
 import { useThemesStore } from "../store";
 import type { Theme } from "../store/types";
+import { TypographyEditor } from "../components/TypographyEditor";
+import type { MuiThemeConfig } from "../types/theme.types";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -171,6 +173,29 @@ const ThemeEdit = () => {
             mode,
           },
         },
+      };
+    });
+  };
+
+  const handleTypographyChange = (typography: MuiThemeConfig['typography']) => {
+    setEditingTheme((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        themeConfig: {
+          ...prev.themeConfig,
+          typography,
+        },
+      };
+    });
+  };
+
+  const handleGoogleFontsChange = (fonts: string[]) => {
+    setEditingTheme((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        googleFonts: fonts.length > 0 ? fonts : null,
       };
     });
   };
@@ -543,32 +568,12 @@ const ThemeEdit = () => {
                   </TabPanel>
 
                   <TabPanel value={tabValue} index={2}>
-                    <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
-                        Typography Settings
-                      </Typography>
-                      
-                      <Alert severity="info" sx={{ mb: 3 }}>
-                        <Typography variant="body2">
-                          Typography customization will be available in the next update. Advanced font settings are coming soon!
-                        </Typography>
-                      </Alert>
-                      
-                      <Box sx={{ p: 4, bgcolor: '#F8F9FA', borderRadius: 2, textAlign: 'center' }}>
-                        <Typography variant="h4" gutterBottom>
-                          Sample Heading
-                        </Typography>
-                        <Typography variant="h6" gutterBottom>
-                          Subtitle Text
-                        </Typography>
-                        <Typography variant="body1" paragraph>
-                          This is a sample paragraph showing how your theme's typography will look with the current settings.
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Secondary text in smaller size for additional context.
-                        </Typography>
-                      </Box>
-                    </Box>
+                    <TypographyEditor
+                      typography={editingTheme.themeConfig.typography}
+                      onChange={handleTypographyChange}
+                      googleFonts={editingTheme.googleFonts || []}
+                      onGoogleFontsChange={handleGoogleFontsChange}
+                    />
                   </TabPanel>
 
                   <TabPanel value={tabValue} index={3}>

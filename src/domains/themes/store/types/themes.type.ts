@@ -80,6 +80,7 @@ export interface MuiTypography {
   button?: MuiTypographyVariant;
   caption?: MuiTypographyVariant;
   overline?: MuiTypographyVariant;
+  [key: string]: MuiTypographyVariant | string | number | undefined;
 }
 
 export interface MuiShape {
@@ -164,6 +165,18 @@ export interface ThemesActions {
    * Clears error message
    */
   clearError: () => void;
+  /**
+   * Loads Google Fonts for a specific theme
+   */
+  loadThemeFonts: (theme: Theme) => Promise<void>;
+  /**
+   * Loads Google Fonts for the currently selected theme
+   */
+  loadSelectedThemeFonts: () => Promise<void>;
+  /**
+   * Sets the selected theme and loads its fonts
+   */
+  setSelectedThemeWithFonts: (theme: Theme | null) => Promise<void>;
 }
 
 /**

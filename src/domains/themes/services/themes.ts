@@ -14,12 +14,14 @@ const createTheme = async (
     description,
     themeConfig,
     tags,
+    googleFonts,
   } = theme;
   const response = await httpClient.post<Theme>("/themes/create", {
     name,
     description,
     themeConfig,
     tags,
+    googleFonts,
   });
   return response;
 };
@@ -30,12 +32,14 @@ const updateTheme = async (id: string, theme: Partial<Theme>) => {
     description,
     themeConfig,
     tags,
+    googleFonts,
   } = theme;
   const response = await httpClient.patch<Theme>(`/themes/${id}`, {
     name,
     description,
     themeConfig,
     tags,
+    googleFonts,
   });
   return response;
 };

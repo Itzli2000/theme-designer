@@ -32,17 +32,43 @@ export const DemoComponents = () => {
 
       <Paper sx={{ p: 3 }}>
         <Typography variant="h6" gutterBottom>
-          Colors & Typography
+          Typography Showcase
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Typography variant="h1">Heading 1</Typography>
-          <Typography variant="h2">Heading 2</Typography>
-          <Typography variant="h3">Heading 3</Typography>
+          <Typography variant="h1">Heading 1 - Main Title</Typography>
+          <Typography variant="h2">Heading 2 - Section Title</Typography>
+          <Typography variant="h3">Heading 3 - Subsection</Typography>
+          <Typography variant="h4">Heading 4 - Minor Section</Typography>
+          <Typography variant="h5">Heading 5 - Small Section</Typography>
+          <Typography variant="h6">Heading 6 - Smallest Heading</Typography>
+          
+          <Typography variant="subtitle1">
+            Subtitle 1 - Large subtitle with more content for preview
+          </Typography>
+          <Typography variant="subtitle2">
+            Subtitle 2 - Smaller subtitle for secondary information
+          </Typography>
+          
           <Typography variant="body1">
-            Body text with primary and secondary colors applied from the selected theme.
+            Body 1 - This is the primary body text that would be used for most content. 
+            It demonstrates how readable text appears with the selected font family and 
+            typography settings.
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Secondary text showing the theme's text hierarchy.
+            Body 2 - Secondary body text for additional information, captions, and 
+            supporting content. Often appears in a lighter color.
+          </Typography>
+          
+          <Typography variant="button">
+            BUTTON TEXT - Used for interactive elements
+          </Typography>
+          
+          <Typography variant="caption">
+            Caption - Small text used for image captions, metadata, and fine print details
+          </Typography>
+          
+          <Typography variant="overline">
+            OVERLINE - UPPERCASE TEXT FOR EMPHASIS AND LABELS
           </Typography>
         </Box>
       </Paper>

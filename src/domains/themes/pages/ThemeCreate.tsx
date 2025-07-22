@@ -44,6 +44,8 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router';
 import { useThemesStore } from '../store';
 import type { CreatedBy } from '../store/types';
+import { TypographyEditor } from '../components/TypographyEditor';
+import type { MuiThemeConfig } from '../types/theme.types';
 
 const steps = [
   { label: 'Basic Info', icon: InfoIcon },
@@ -86,7 +88,12 @@ const ThemeCreate = () => {
           main: '#dc004e',
         },
       },
+      typography: {
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+        fontSize: 14,
+      } as MuiThemeConfig['typography'],
     },
+    googleFonts: [] as string[],
   });
 
   const handleNext = () => {
@@ -132,6 +139,23 @@ const ThemeCreate = () => {
     }
   };
 
+  const handleTypographyChange = (typography: MuiThemeConfig['typography']) => {
+    setNewTheme(prev => ({
+      ...prev,
+      themeConfig: {
+        ...prev.themeConfig,
+        typography,
+      },
+    }));
+  };
+
+  const handleGoogleFontsChange = (fonts: string[]) => {
+    setNewTheme(prev => ({
+      ...prev,
+      googleFonts: fonts,
+    }));
+  };
+
   const getDeviceWidth = (device: string) => {
     switch (device) {
       case 'mobile':
@@ -160,7 +184,7 @@ const ThemeCreate = () => {
 
   const handleCreateTheme = async () => {
     if (!isStepValid(activeStep)) return;
-    
+
     setIsCreating(true);
     try {
       const themeToCreate = {
@@ -175,7 +199,7 @@ const ThemeCreate = () => {
         updatedBy: {} as CreatedBy,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        googleFonts: null,
+        googleFonts: newTheme.googleFonts.length > 0 ? newTheme.googleFonts : null,
       };
       await createTheme(themeToCreate);
       
@@ -341,30 +365,16 @@ const ThemeCreate = () => {
                 Typography
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Typography customization will be available in future updates.
+                Customize fonts and typography styles for your theme.
               </Typography>
             </Box>
             
-            <Alert severity="info" sx={{ mb: 3 }}>
-              <Typography variant="body2">
-                For now, your theme will use the default typography settings. Advanced typography customization is coming soon!
-              </Typography>
-            </Alert>
-            
-            <Box sx={{ p: 4, bgcolor: '#F8F9FA', borderRadius: 2, textAlign: 'center' }}>
-              <Typography variant="h4" gutterBottom>
-                Sample Heading
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                Subtitle Text
-              </Typography>
-              <Typography variant="body1" paragraph>
-                This is a sample paragraph showing how your theme's typography will look.
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Secondary text in smaller size.
-              </Typography>
-            </Box>
+            <TypographyEditor
+              typography={newTheme.themeConfig.typography}
+              onChange={handleTypographyChange}
+              googleFonts={newTheme.googleFonts}
+              onGoogleFontsChange={handleGoogleFontsChange}
+            />
           </Box>
         );
         
@@ -673,7 +683,7 @@ const ThemeCreate = () => {
                     updatedBy: {} as CreatedBy,
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString(),
-                    googleFonts: null,
+                    googleFonts: newTheme.googleFonts.length > 0 ? newTheme.googleFonts : null,
                   }}>
                     <DemoComponents />
                   </ThemeProvider>
