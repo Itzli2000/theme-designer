@@ -9,6 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `yarn lint` - Run ESLint for code linting
 - `yarn preview` - Preview production build locally
 
+**Important**: Always run `yarn lint` after making changes to ensure code quality.
+
 ## Project Architecture
 
 This is a React + TypeScript theme designer application using Vite as the build tool.
@@ -80,3 +82,22 @@ Each domain follows a consistent structure:
 - Custom Axios client in `src/shared/services/http/`
 - Interceptors for request/response handling
 - Centralized error handling and authentication tokens
+
+### Theme Designer Specific Features
+
+- **FontPicker Component**: Integrates with Google Fonts API for font selection and loading
+- **TypographyEditor**: Advanced typography customization with live preview
+- **ColorPicker**: Uses `mui-color-input` for sophisticated color selection
+- **DevicePreview**: Multi-device responsive theme preview system
+- **StepperWizard**: Multi-step theme creation workflow
+- **Theme Configuration**: MUI theme configuration with custom palette and typography
+- **Font Loading**: Dynamic font loading using WebFont Loader with fallback handling
+- **Theme Utils**: Color manipulation and theme validation utilities in `src/domains/themes/utils/`
+
+### Key Patterns
+
+- **Component Organization**: Domain-specific UI components in `{domain}/components/ui/` folders
+- **Service Layer**: External API integrations (Google Fonts, theme services) in `{domain}/services/`
+- **Custom Hooks**: Reusable logic for font loading, color palettes, device preview, etc.
+- **Form Handling**: React Hook Form with Zod validation for all user inputs
+- **Theme Management**: Centralized theme state with persistence and preview capabilities
